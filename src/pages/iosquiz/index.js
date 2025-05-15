@@ -749,13 +749,13 @@ const Quiz = () => {
 
       // Navigate to login page with delay to ensure state updates first
       setTimeout(() => {
-        router.push("/login");
+        router.push("/leaderboard");
       }, 150);
     } catch (error) {
       console.error("Error during quiz completion:", error);
       // Even on error, try to navigate
       setTimeout(() => {
-        router.push("/login");
+        router.push("/leaderboard");
       }, 150);
     }
   };
