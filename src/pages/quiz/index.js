@@ -1,14 +1,28 @@
+import Loading from "@/components/Loading";
 import Options from "@/components/Options";
 import ProgressBar from "@/components/ProgressBar";
 import { ArrowLeft, LogOut, Mic, Volume2, VolumeOff } from "lucide-react";
+import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
 import Image from "next/image";
-import React, { useState } from "react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 const Quiz = () => {
   const [clicked, setClicked] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [ansType, setAnsType] = useState("");
 
+
+  const [animation, setAnimation] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimation(true);
+    }, 4000);
+  }, []);
+
+  if (!animation) {
+    return <Loading />;
+  }
   return (
     <div
       className={`pt7 pt-4 pb- min-h-svh max-w-md mx-auto grid  relative ${
@@ -54,8 +68,8 @@ const Quiz = () => {
       >
         <div className="font-semibold text-base/5 tracking-wide text-[#111111] outline outline-black p-3.5 rounded-xl">
           {"Q1."}
-          You're recommending Triple Protect to someone who catches flu often.
-          What do you highlight?
+          You&apos;re recommending Triple Protect to someone who catches flu
+          often. What do you highlight?
         </div>
 
         <div className="relative  overflow-visible flex items-center justify-center cursor-pointer ">
@@ -87,11 +101,11 @@ const Quiz = () => {
         </div>
 
         {ansType === "text" ? (
-          <div class=" py-2 px-3.5 w-full flex justify-left border-b border-black ">
+          <div className=" py-2 px-3.5 w-full flex justify-left border-b border-black ">
             <input
               type="text"
               placeholder="Type your answer here"
-              class="font-medium w-full text-base/5.5 tracking-wide text-black111/65  bg-transparent text-left  focus:outline-none"
+              className="font-medium w-full text-base/5.5 tracking-wide text-black111/65  bg-transparent text-left  focus:outline-none"
             />
           </div>
         ) : (
@@ -99,15 +113,17 @@ const Quiz = () => {
         )}
       </section>
 
-      <div className=" w-full flex items-center gap-5 mt-4 px-6">
-        <button className="shadow-[0px_2px_2px_#00993333] w-1/2 rounded-xl font-semibold text-xl/6 outline-2 outline-dark-green text-dark-green text-center py-3">
-          Skip
-        </button>
+      <Link href={"/leaderboard"}>
+        <div className=" w-full flex items-center gap-5 mt-4 px-6">
+          <button className="shadow-[0px_2px_2px_#00993333] w-1/2 rounded-xl font-semibold text-xl/6 outline-2 outline-dark-green text-dark-green text-center py-3">
+            Skip
+          </button>
 
-        <button className="shadow-[0px_2px_2px_#00993333] w-1/2 rounded-xl font-semibold text-xl/6 outline-2 outline-dark-green text-dark-green text-center py-3">
-          Submit
-        </button>
-      </div>
+          <button className="shadow-[0px_2px_2px_#00993333] w-1/2 rounded-xl font-semibold text-xl/6 outline-2 outline-dark-green text-dark-green text-center py-3">
+            Submit
+          </button>
+        </div>
+      </Link>
 
       <Image
         src={"/images/green-curves-graphic.png"}
