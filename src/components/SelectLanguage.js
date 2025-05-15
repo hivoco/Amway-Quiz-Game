@@ -33,7 +33,11 @@ const SelectLanguage = () => {
         })}
       </div>
 
-      <Link href={selectedLanguage ? "/quiz" : ""}>
+      <Link
+        href={
+          selectedLanguage ? `/platformQuiz?language=${selectedLanguage}` : "#"
+        }
+      >
         <CircleArrowRight
           size={54}
           strokeWidth={1}

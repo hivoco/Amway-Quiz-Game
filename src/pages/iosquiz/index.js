@@ -7,19 +7,23 @@
 // import Image from "next/image";
 // import { useSearchParams } from "next/navigation";
 // import { useRouter } from "next/router";
-// import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect, useRef } from "react";
+// import useVoiceRecorder from "@/hooks/useVoiceRecorder";
+// import { blobToBase64 } from "@/components/helper";
 
 // const Quiz = () => {
 //   const {
-//     recording,
-//     speechText,
-//     startSpeechRecognition,
-//     stopSpeechRecognition,
-//   } = useSpeechRecognition();
+//     recordingBlob,
+//     isRecording,
+//     startRecording,
+//     stopRecording,
+//     permissionState,
+//     recordingTime,
+//   } = useVoiceRecorder();
 //   const [clicked, setClicked] = useState(false);
 //   const [isMuted, setIsMuted] = useState(true);
 //   const [ansType, setAnsType] = useState("");
-
+//   const audioRef = useRef(null);
 //   const [questions, setQuestions] = useState([]);
 //   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 //   const [allowAudio, setAllowAudio] = useState(false); // Controls whether audio should play
@@ -63,11 +67,11 @@
 //     }
 //   }, [router.isReady, language, isQuizCompleted]);
 
-//   useEffect(() => {
-//     if (speechText) {
-//       verifyAnswer(speechText);
-//     }
-//   }, [speechText]);
+//   // useEffect(() => {
+//   //   if (speechText) {
+//   //     verifyAnswer(speechText);
+//   //   }
+//   // }, [speechText]);
 
 //   useEffect(() => {
 //     if (allowAudio) {
@@ -148,7 +152,7 @@
 //   const handleSkip = () => {
 //     if (isQuizCompleted) return;
 
-//     if (recording) return;
+//     if (isRecording) return;
 //     if (audio) {
 //       audio.pause();
 //     }
@@ -315,8 +319,23 @@
 //     }
 //   };
 
+//   const handleRecordingComplete = async (recordingBlob) => {
+//     try {
+//       const base64Audio = await blobToBase64(recordingBlob); // Convert blob to base64
+//       verifyAnswer(base64Audio, false);
+//     } catch (err) {
+//       console.error("Error processing the recording blob", err);
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (recordingBlob) {
+//       handleRecordingComplete(recordingBlob);
+//     }
+//   }, [recordingBlob]);
+
 //   const handleOptionClick = (option) => {
-//     if (recording || selectedOption) return;
+//     if (isRecording || selectedOption) return;
 //     if (audio) {
 //       audio.pause();
 //     }
@@ -324,18 +343,39 @@
 //     verifyAnswer(option, true);
 //   };
 
-//   const handleStartRecording = async () => {
-//     if (recording) return;
-//     if (selectedOption) return;
-//     if (audio) {
-//       audio.pause();
+//   const pauseQuestionAudio = () => {
+//     if (audioRef.current) {
+//       audioRef.current.pause();
+//       audioRef.current.currentTime = 0;
 //     }
+//     setIsPlaying(false);
+//     // setAllowAudio(false); // Prevent auto-play on question change
+//   };
+
+//   const handleStartRecording = async (source) => {
+//     if (isRecording) return;
+//     pauseQuestionAudio();
+//     if (selectedOption) return;
 //     // const newAudio = new Audio("/music/startmic.wav");
 //     // setAudio(newAudio);
 //     // newAudio.play(); //
 
-//     startSpeechRecognition();
+//     if (permissionState === "denied" && source === "audio") return;
+//     if (permissionState === "denied" && source === "click") {
+//       setErrorMessage("Please allow microphone in browser setting");
+//       return;
+//     }
+//     startRecording();
+
+//     // setTimeout(() => {
+//     //   stopRecording();
+//     // }, 4000); // Stops recording after 4 seconds
 //   };
+//   useEffect(() => {
+//     if (recordingTime > 4) {
+//       stopRecording();
+//     }
+//   }, [recordingTime]);
 
 //   const handleStopRecording = () => {
 //     return;
@@ -412,19 +452,19 @@
 //         <div className="relative  overflow-visible flex items-center justify-center cursor-pointer ">
 //           <div
 //             // onClick={() => setClicked(!clicked)}
-//             onClick={recording ? handleStopRecording : handleStartRecording}
+//             onClick={isRecording ? handleStopRecording : handleStartRecording}
 //             className="flex flex-col gap- justify-center items-center z-50 relative py-6 pt-5 "
 //           >
 //             <Image
-//               className={`${recording ? "w-15" : ""}`}
+//               className={`${isRecording ? "w-15" : ""}`}
 //               width={41.5}
 //               height={60}
 //               alt="solid mic white"
-//               src={recording ? "/gif/waves.gif" : "/images/mic.png"}
+//               src={isRecording ? "/gif/waves.gif" : "/images/mic.png"}
 //               priority={true}
 //             />
 //             <span className="font-medium text-xs/4 text-center text-white ">
-//               {recording ? "Listening" : "Tap to answer"}
+//               {isRecording ? "Listening" : "Tap to answer"}
 //             </span>
 //           </div>
 
@@ -451,7 +491,7 @@
 //           // <Options />
 
 //           <div className=" w-full flex flex-col gap-2">
-//             {/* {currentQuestion?.options?.map((option, index) => (
+//             {currentQuestion?.options?.map((option, index) => (
 //               <button
 //                 key={index}
 //                 onClick={() => handleOptionClick(option)}
@@ -478,59 +518,7 @@
 //                     />
 //                   )}
 //               </button>
-//             ))} */}
-
-//             {currentQuestion?.options?.map((option, index) => {
-//               const isSelected =
-//                 selectedOption?.trim().toLowerCase() ===
-//                 option?.trim().toLowerCase();
-//               const isCorrect =isAnswerCorrect
-
-//               return (
-//                 <button
-//                   key={index}
-//                   onClick={() => handleOptionClick(option)}
-//                   className={`
-//         text-[16px] leading-5 text-center
-//         flex items-center justify-between
-//         border border-[#28211D] px-6 py-3 rounded-full
-//         capitalize xl:cursor-pointer hover:bg-[#703513]/10
-//         font-semibold text-base/5 text-black111 tracking-wide w-full
-//         ${
-//           isSelected
-//             ? isCorrect
-//               ? "!border-[#066A37] !bg-[#00AE55] !text-white" // Selected and correct
-//               : "!bg-[#F60000] !border-[#7F0000] !text-white" // Selected but incorrect
-//             : isCorrect && selectedOption // Not selected but is the correct answer (shown after selection)
-//             ? "!border-[#066A37] !bg-[#E6F8EF] !text-[#066A37]" // Highlight the correct answer
-//             : ""
-//         }
-//       `}
-//                 >
-//                   {option}
-
-//                   {isSelected && isCorrect && (
-//                     <Image
-//                       src="/svg/tick-circle-solid.svg"
-//                       width={24}
-//                       height={24}
-//                       alt="tick image"
-//                       priority
-//                     />
-//                   )}
-
-//                   {isSelected && !isCorrect && (
-//                     <Image
-//                       src="/svg/x-circle-solid.svg"
-//                       width={24}
-//                       height={24}
-//                       alt="x image"
-//                       priority
-//                     />
-//                   )}
-//                 </button>
-//               );
-//             })}
+//             ))}
 //           </div>
 //         )}
 //       </section>
@@ -567,30 +555,32 @@
 
 // export default Quiz;
 
-import Loading from "@/components/Loading";
 import Options from "@/components/Options";
 import ProgressBar from "@/components/ProgressBar";
 import Timer from "@/components/Timer";
 import VerifyLoading from "@/components/VerifyLoading";
-import useSpeechRecognition from "@/hooks/useSpeechRecognition";
 import { ArrowLeft, LogOut, Mic, Volume2, VolumeOff } from "lucide-react";
-import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import useVoiceRecorder from "@/hooks/useVoiceRecorder";
+import { blobToBase64 } from "@/components/helper";
+import Loading from "@/components/Loading";
 
 const Quiz = () => {
   const {
-    recording,
-    speechText,
-    startSpeechRecognition,
-    stopSpeechRecognition,
-  } = useSpeechRecognition();
+    recordingBlob,
+    isRecording,
+    startRecording,
+    stopRecording,
+    permissionState,
+    recordingTime,
+  } = useVoiceRecorder();
   const [clicked, setClicked] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [ansType, setAnsType] = useState("");
-
+  const audioRef = useRef(null);
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [allowAudio, setAllowAudio] = useState(false); // Controls whether audio should play
@@ -608,6 +598,8 @@ const Quiz = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
   const [seconds, setSeconds] = useState(30);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const router = useRouter();
 
   useEffect(() => {
@@ -632,12 +624,6 @@ const Quiz = () => {
       fetchQuestions();
     }
   }, [router.isReady, language, isQuizCompleted]);
-
-  useEffect(() => {
-    if (speechText) {
-      verifyAnswer(speechText);
-    }
-  }, [speechText]);
 
   useEffect(() => {
     if (allowAudio) {
@@ -715,7 +701,7 @@ const Quiz = () => {
   const handleSkip = () => {
     if (isQuizCompleted) return;
 
-    if (recording) return;
+    if (isRecording) return;
     if (audio) {
       audio.pause();
     }
@@ -791,8 +777,10 @@ const Quiz = () => {
       question_id: questions[currentQuestionIndex].question_id,
       lang: language,
       onClick: isClickedOption,
-      platform: "",
+      platform: questions[currentQuestionIndex].question_id === 7 ? "" : "iOS",
       option_one: questions[currentQuestionIndex].options[0],
+      is_write:
+        questions[currentQuestionIndex].question_id === 7 ? true : false,
     };
 
     const startTime = Date.now();
@@ -831,7 +819,7 @@ const Quiz = () => {
           // User clicked an option - use exactly what was clicked
           setSelectedOption(userAnswer);
         } else {
-          // Speech recognition - use the API response
+          // Voice recording - use the API response
           setSelectedOption(
             data.is_correct ? data.correct_option_value : data.user_answer
           );
@@ -855,22 +843,55 @@ const Quiz = () => {
     }
   };
 
+  const handleRecordingComplete = async (recordingBlob) => {
+    try {
+      const base64Audio = await blobToBase64(recordingBlob); // Convert blob to base64
+      verifyAnswer(base64Audio, false);
+    } catch (err) {
+      console.error("Error processing the recording blob", err);
+    }
+  };
+
+  useEffect(() => {
+    if (recordingBlob) {
+      handleRecordingComplete(recordingBlob);
+    }
+  }, [recordingBlob]);
+
   const handleOptionClick = (option) => {
-    if (recording || selectedOption) return;
+    if (isRecording || selectedOption) return;
     if (audio) {
       audio.pause();
     }
     verifyAnswer(option, true);
   };
 
-  const handleStartRecording = async () => {
-    if (recording) return;
-    if (selectedOption) return;
-    if (audio) {
-      audio.pause();
+  const pauseQuestionAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
     }
-    startSpeechRecognition();
+    setIsPlaying(false);
   };
+
+  const handleStartRecording = async (source) => {
+    if (isRecording) return;
+    pauseQuestionAudio();
+    if (selectedOption) return;
+
+    if (permissionState === "denied" && source === "audio") return;
+    if (permissionState === "denied" && source === "click") {
+      setErrorMessage("Please allow microphone in browser setting");
+      return;
+    }
+    startRecording();
+  };
+
+  useEffect(() => {
+    if (recordingTime > 4) {
+      stopRecording();
+    }
+  }, [recordingTime]);
 
   const handleStopRecording = () => {
     return;
@@ -961,19 +982,23 @@ const Quiz = () => {
 
         <div className="relative  overflow-visible flex items-center justify-center cursor-pointer ">
           <div
-            onClick={recording ? handleStopRecording : handleStartRecording}
+            onClick={
+              isRecording
+                ? handleStopRecording
+                : () => handleStartRecording("click")
+            }
             className="flex flex-col gap- justify-center items-center z-50 relative py-6 pt-5 "
           >
             <Image
-              className={`${recording ? "w-15" : ""}`}
+              className={`${isRecording ? "w-15" : ""}`}
               width={41.5}
               height={60}
               alt="solid mic white"
-              src={recording ? "/gif/waves.gif" : "/images/mic.png"}
+              src={isRecording ? "/gif/waves.gif" : "/images/mic.png"}
               priority={true}
             />
             <span className="font-medium text-xs/4 text-center text-white ">
-              {recording ? "Listening" : "Tap to answer"}
+              {isRecording ? "Listening" : "Tap to answer"}
             </span>
           </div>
 
