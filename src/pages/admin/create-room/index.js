@@ -27,7 +27,7 @@ const RoomCreator = () => {
       })
       .then((data) => {
         console.log("Success:", data);
-        setIsRoomExists(data.is_user_exist);
+        setIsRoomExists(data.is_session_exit);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -79,7 +79,7 @@ const RoomCreator = () => {
   const createRoom = () => {
     if (!isRoomExists && roomName.trim()) {
       const formattedRoomName = roomName.trim().replace(/\s+/g, "-");
-      const newRoomUrl = `${window.location.protocol}://${window.location.href}?session=${formattedRoomName}`;
+      const newRoomUrl = `${window.location.href}?session=${formattedRoomName}`;
       setRoomUrl(newRoomUrl);
       setSessionCreated(true);
 
