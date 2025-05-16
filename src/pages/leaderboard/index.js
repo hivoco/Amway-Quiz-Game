@@ -20,7 +20,7 @@ const LeaderBoard = () => {
   const getInfo = () => {
     setIsLoading(true);
     fetch(
-      `http://192.168.0.6:5000/api/get_top5?session_id=${session_id}&name=${name}`
+      `https://api.amway.thefirstimpression.ai/get_top5?session_id=${session_id}&name=${name}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -36,7 +36,7 @@ const LeaderBoard = () => {
       .catch((error) => {
         console.error("Error:", error);
         setIsLoading(false);
-        setIsRoomExists(null); // Reset on error
+        // setIsRoomExists(null); // Reset on error
       });
   };
 

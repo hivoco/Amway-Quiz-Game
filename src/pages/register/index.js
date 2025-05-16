@@ -13,6 +13,8 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [Name, setName] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
+  console.log(isExit,'isexit');
+  
 
   const verifyName = (Name) => {
     if (!Name.trim()) {
@@ -21,7 +23,7 @@ const Register = () => {
     }
 
     setIsLoading(true);
-    fetch(`http://192.168.0.6:5000/api/is_user_exit?name=${Name}`)
+    fetch(`https://api.amway.thefirstimpression.ai/api/is_user_exit?name=${Name}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -77,20 +79,20 @@ const Register = () => {
     return null; // No icon if not yet checked
   };
 
-  const goFarword = (Name)=>{
-    if(!isExit){
-sessionStorage.setItem("name",Name.trim())
-setContinueClicked(true);
+  const goFarword = (Name) => {
+    if (!isExit) {
+      sessionStorage.setItem("name", Name.trim());
+      if (isExit === null || isExit === true) return; 
+      setContinueClicked(true);
     }
-   
-  }
+  };
 
   return (
     <Layout>
       <div className="relative h-full w-full z-50">
         <Header />
 
-        <div className="h-2/3 flex flex-col justify-stretch px-12 grid grid-rows-[1fr_3.3fr_auto] gap-8 sm:gap-6 sm:w-4/5 sm:mx-auto">
+        <div className="h-72/100 sm:h-2/3  fle flex-col justify-stretch px-12 grid grid-rows-[1fr_3.3fr_auto] gap-8 sm:gap-6 sm:w-4/5 sm:mx-auto">
           <section className="flex w-full gap-2.5 items-center justify-center">
             <Image
               alt="nutrilite-triple-protect"

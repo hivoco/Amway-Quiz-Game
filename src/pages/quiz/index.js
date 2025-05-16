@@ -123,7 +123,7 @@
 
 //     try {
 //       const response = await fetch(
-//         `http://192.168.0.6:5000/api/get_all_question?lang=english`
+//         `https://api.amway.thefirstimpression.ai//api/get_all_question?lang=english`
 //       );
 
 //       if (!response.ok) {
@@ -232,7 +232,7 @@
 //     const startTime = Date.now();
 //     try {
 //       setIsLoading(true);
-//       const response = await fetch("http://192.168.0.6:5000/api/verify", {
+//       const response = await fetch("https://api.amway.thefirstimpression.ai//api/verify", {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify(body),
@@ -691,7 +691,7 @@ const Quiz = () => {
 
     try {
       const response = await fetch(
-        `http://192.168.0.6:5000/api/get_all_question?lang=${language}`
+        `https://api.amway.thefirstimpression.ai//api/get_all_question?lang=${language}`
       );
 
       if (!response.ok) {
@@ -755,7 +755,7 @@ const Quiz = () => {
       setIsLoading(true);
       const name = sessionStorage.getItem("name");
       const response = await fetch(
-        "http://192.168.0.6:5000/api/insert_record",
+        "https://api.amway.thefirstimpression.ai//api/insert_record",
         {
           method: "POST",
           headers: {
@@ -813,7 +813,7 @@ const Quiz = () => {
     const startTime = Date.now();
     try {
       setIsLoading(true);
-      const response = await fetch("http://192.168.0.6:5000/api/verify", {
+      const response = await fetch("https://api.amway.thefirstimpression.ai//api/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -919,13 +919,13 @@ const Quiz = () => {
 
   return (
     <div
-      className={`pt7 pt-4 pb- min-h-svh max-w-md mx-auto grid  relative ${
+      className={`pt7 pt-[3.5vh] pb-[15vh]  h-svh max-w-md mx-auto grid relative ${
         ansType === "text" ? "grid-rows-[auto_1fr_auto_auto]" : ""
       }`}
     >
       <section className="w-full fle grid flex-col gap-1.5 px-6">
         <nav className=" w-full flex justify-between items-center ">
-          <div className="flex items-center gap-3 ">
+          <div className="flex items-center gap-3">
             <ArrowLeft size={24} />
             <span className="text-dark-green font-semibold text-lg/5.5 ">
               {currentQuestionIndex + 1}/{questions.length}
@@ -933,13 +933,13 @@ const Quiz = () => {
           </div>
 
           <div className="flex flex-col gap-2.5  ">
-            <span className="p-3  rounded-full bg-[#79BF44] outline-1 outline-dark-green">
+            <span className="w-8.5 h-8.5 flex items-center justify-center rounded-full bg-[#79BF44] outline-1 outline-dark-green">
               <LogOut color="white" size={16} />
             </span>
 
             <span
               onClick={toggleQuestionAudio}
-              className="p-3 rounded-full bg-[#79BF44] outline-1 outline-dark-green"
+              className="w-8.5 h-8.5 flex items-center justify-center rounded-full bg-[#79BF44] outline-1 outline-dark-green"
             >
               {!isPlaying ? (
                 <VolumeOff color="white" size={16} />
@@ -1108,11 +1108,12 @@ const Quiz = () => {
         </button>
       </div>
 
+      {/* <div className="w-screen h-auto aspect-[3.125]"></div> */}
       <Image
         src={"/images/green-curves-graphic.png"}
-        className="w-full h-auto bottom-0 left-0 right-0"
+        className="w-full h-auto absolute bottom-0 left-0 "
         width={375}
-        height={120}
+        height={110}
         alt="green graphics image abstract"
         priority={true}
       />

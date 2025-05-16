@@ -18,7 +18,7 @@ const RoomCreator = () => {
     }
 
     setIsLoading(true);
-    fetch(`http://192.168.0.6:5000/api/is_session_exit?name=${name}`)
+    fetch(`https://api.amway.thefirstimpression.ai//api/is_session_exit?name=${name}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -84,7 +84,7 @@ const RoomCreator = () => {
       setSessionCreated(true);
 
       // Here you could add an API call to actually create the session in your backend
-      // fetch('http://192.168.0.6:5000/api/create_session', {
+      // fetch('https://api.amway.thefirstimpression.ai//api/create_session', {
       //   method: 'POST',
       //   headers: {
       //     'Content-Type': 'application/json',

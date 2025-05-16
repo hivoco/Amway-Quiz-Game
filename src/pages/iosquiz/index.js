@@ -127,7 +127,7 @@
 
 //     try {
 //       const response = await fetch(
-//         `http://192.168.0.6:5000/api/get_all_question?lang=english`
+//         `https://api.amway.thefirstimpression.ai//api/get_all_question?lang=english`
 //       );
 
 //       if (!response.ok) {
@@ -236,7 +236,7 @@
 //     const startTime = Date.now();
 //     try {
 //       setIsLoading(true);
-//       const response = await fetch("http://192.168.0.6:5000/api/verify", {
+//       const response = await fetch("https://api.amway.thefirstimpression.ai//api/verify", {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify(body),
@@ -676,7 +676,7 @@ const Quiz = () => {
 
     try {
       const response = await fetch(
-        `http://192.168.0.6:5000/api/get_all_question?lang=${language}`
+        `https://api.amway.thefirstimpression.ai//api/get_all_question?lang=${language}`
       );
 
       if (!response.ok) {
@@ -740,7 +740,7 @@ const Quiz = () => {
       setIsLoading(true);
       const name = sessionStorage.getItem("name");
       const response = await fetch(
-        "http://192.168.0.6:5000/api/insert_record",
+        "https://api.amway.thefirstimpression.ai//api/insert_record",
         {
           method: "POST",
           headers: {
@@ -799,7 +799,7 @@ const Quiz = () => {
     const startTime = Date.now();
     try {
       setIsLoading(true);
-      const response = await fetch("http://192.168.0.6:5000/api/verify", {
+      const response = await fetch("https://api.amway.thefirstimpression.ai//api/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

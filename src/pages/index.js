@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 const App = () => {
   const [displaySplash, setDisplaySplash] = useState(true);
   useEffect(() => {
-    setTimeout(() => setDisplaySplash(false), 1000);
+    setTimeout(() => setDisplaySplash(false), 1500);
   }, []);
   return (
     <>
