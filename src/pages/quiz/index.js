@@ -919,11 +919,11 @@ const Quiz = () => {
 
   return (
     <div
-      className={`pt7 pt-[3.5vh] pb-[15vh]  h-svh max-w-md mx-auto grid relative z-50 ${
+      className={`pt7 pt-[3.5vh] pb-[15vh]  h-svh sm:h-auto   max-w-md mx-auto grid relative  ${
         ansType === "text" ? "grid-rows-[auto_1fr_auto_auto]" : ""
       }`}
     >
-      <section className="w-full fle grid flex-col gap-1.5 px-6">
+      <section className="w-full fle grid flex-col gap-1.5 px-6 relative z-50">
         <nav className=" w-full flex justify-between items-center ">
           <div className="flex items-center gap-3">
             <ArrowLeft size={24} />
@@ -954,9 +954,9 @@ const Quiz = () => {
       </section>
 
       <section
-        className={`w-full fle flex-col grid gap-2 px-6
-                ${ansType ? "grid-rows-[90px_120px_40px]" : ""} 
-        `}
+        className={`w-full fle flex-col grid gap-2  px-6 relative z-50
+        ${ansType ? "grid-rows-[90px_120px_40px]" : ""} 
+      `}
       >
         <div className="font-semibold text-base/5 tracking-wide text-[#111111] relative outline outline-black p-3.5 rounded-xl">
           {`Q${currentQuestion.question_id + 1}.`} {currentQuestion.question}
@@ -1013,7 +1013,7 @@ const Quiz = () => {
             />
           </div>
         ) : (
-          <div className="w-full flex flex-col gap-2">
+          <div className="w-full flex flex-col gap-1">
             {currentQuestion?.options?.map((option, index) => {
               // Is this the option the user selected?
               const isSelected =
@@ -1032,7 +1032,7 @@ const Quiz = () => {
                   className={`
                     text-[16px] leading-5 text-center 
                     flex items-center justify-between 
-                    border border-[#28211D] px-6 py-3 rounded-full 
+                    border border-[#28211D] p-3.5 rounded-lg 
                     capitalize xl:cursor-pointer hover:bg-[#703513]/10 
                     font-semibold text-base/5 text-black111 tracking-wide w-full
                     ${
@@ -1046,6 +1046,7 @@ const Quiz = () => {
                     }
                   `}
                 >
+                  
                   {option}
 
                   {/* Show checkmark if this option was selected and correct */}
@@ -1090,7 +1091,7 @@ const Quiz = () => {
         )}
       </section>
 
-      <div className="w-full flex items-center gap-5 mt-4 px-6">
+      <div className="w-full flex items-center gap-5 mt-4 px-6 relative z-50">
         <button
           onClick={handleSkip}
           disabled={isQuizCompleted}
@@ -1111,7 +1112,7 @@ const Quiz = () => {
       {/* <div className="w-screen h-auto aspect-[3.125]"></div> */}
       <Image
         src={"/images/green-curves-graphic.png"}
-        className="w-full h-auto absolute z-50 bottom-0 left-0 "
+        className="w-full h-auto absolute z-0 bottom-0 left-0 " 
         width={375}
         height={110}
         alt="green graphics image abstract"

@@ -1,9 +1,9 @@
 import Image from "next/image";
 
-const Layout = ({ children,diffTopImage=false }) => {
+const Layout = ({ children,diffTopImage=false,className }) => {
   // every element is absolute here
   return (
-    <div className="h-svh w-full relative">
+    <div className={`h-svh w-full relative ${className}`}>
       {!diffTopImage && (
         <Image
           className="absolute w-full h-auto  top-0 left-0 z-0"

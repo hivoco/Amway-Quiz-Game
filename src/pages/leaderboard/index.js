@@ -49,8 +49,8 @@ const LeaderBoard = () => {
   }
 
   return (
-    <Layout>
-      <section className="flex w-full gap-2.5 items-center justify-center pt-16 pb-[3.6vh]">
+    <Layout className={"sm:h-auto"}>
+      <section className="flex w-full  gap-2.5 items-center justify-center pt-16 pb-7 [3.6vh]">
         <Image
           alt="nutrilite-triple-protect"
           width={67}
@@ -63,44 +63,46 @@ const LeaderBoard = () => {
         </div>
       </section>
 
-      <h1
-        className="text-[32px]/9 w-87/100 mx-auto tracking-wider text-center uppercase text-[#F9FBEA]
-      shadow-[6px_6px_0px_#BDD83C] bg-dark-green pt-1.5 pb-1 rounded-lg
+      <section>
+        <h1
+          className="text-[32px]/9 w-87/100 mx-auto tracking-wider text-center uppercase text-[#F9FBEA]
+      shadow-[5px_5px_0px_#BDD83C] bg-dark-green py-1.5 rounded-lg
       "
-      >
-        LEADERBOARD
-      </h1>
+        >
+          LEADERBOARD
+        </h1>
 
-      <div className="flex items-center justify-between w-3/4 max-w-4/5 mx-auto">
-        <h2 className="text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 ">
-          1st
+        <div className="flex items-center justify-between w-3/4 max-w-4/5 mx-auto">
+          <h2 className="text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 ">
+            1st
+          </h2>
+
+          <Image
+            className="h-48 w-auto"
+            alt="prize with glare in bg"
+            width={180}
+            height={180}
+            src="/images/Trophy+Glare.png"
+            quality={100}
+          />
+
+          <h2 className="text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 ">
+            98
+            <br />
+            pts.
+          </h2>
+        </div>
+
+        <h2 className="text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 text-center">
+          SHREYA{" "}
         </h2>
+      </section>
 
-        <Image
-          className="h-48 w-auto"
-          alt="prize with glare in bg"
-          width={180}
-          height={180}
-          src="/images/Trophy+Glare.png"
-          quality={100}
-        />
-
-        <h2 className="text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 ">
-          98
-          <br />
-          pts.
-        </h2>
-      </div>
-
-      <h2 className="text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 text-center">
-        SHREYA{" "}
-      </h2>
-
-      <section className="px-6 flex flex-col gap-2 font-medium">
+      <section className="h-1/3 px-6 fle flex-col grid gap-2 grid-rows-4 content-between  font-medium">
         {leaderboardList.map((el) => (
           <div
             key={el.rank}
-            className="outline-2 border-dark-green rounded-full py-4 px-5 text-lg/5.5 text-center text-black111
+            className="outline-2  border-dark-green rounded-full py-4 px-5 text-lg/5.5 text-center text-black111
             flex items-center justify-between "
           >
             <div className="flex items-center gap-4">

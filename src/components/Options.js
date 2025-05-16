@@ -18,7 +18,7 @@ const [selected, setSelected] = useState();
   const options = ["Coffee", "Tea", "Juice", "Water"];
 
   return (
-    <div className=" w-full flex flex-col gap-2">
+    <div className=" w-full flex flex-col gap-1">
       {options.map((o, i) => (
         <div
           key={i}
