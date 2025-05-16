@@ -96,7 +96,7 @@ const Register = () => {
   return (
     <Layout animation={animation}>
       <div
-        className={`relative h-full w-full z-50
+        className={`relative h-full w-full z-50 overflow-hidden
         transition-all duration-1000 ease-in-out transform ${
           animation ? "opacity-100" : "opacity-0 "
         }
@@ -152,6 +152,7 @@ const Register = () => {
                 <div className="w-full flex flex-col gap-1 justify-center">
                   <input
                     type="text"
+                    enterKeyHint="enter" 
                     inputMode="text"
                     placeholder="Enter your name"
                     className="font-medium text-sm/6 align-middle text-black capitalize placeholder:text-[#8B8B8B] py-3.5 px-5 outline-3 outline-dark-green rounded-full"

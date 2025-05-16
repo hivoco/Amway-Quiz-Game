@@ -20,7 +20,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => setDisplaySplash(false), 3000);
   }, []);
-  
+
   return (
     <>
       {displaySplash ? (
@@ -28,7 +28,7 @@ const App = () => {
       ) : (
         <Layout diffTopImage={true} animation={animation}>
           <div
-            className={`flex items-center justify-center gap-3 pt-[11vh] pb-[5vh] 
+            className={`flex items-center justify-center gap-3 pt-[11vh] pb-[5vh] overflow-hidden
                       transition-all duration-1000 ease-in-out ${
                         animation
                           ? "translate-y-0 opacity-100"
