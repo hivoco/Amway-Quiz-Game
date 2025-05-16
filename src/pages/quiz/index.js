@@ -919,7 +919,7 @@ const Quiz = () => {
 
   return (
     <div
-      className={`pt7 pt-[3.5vh] pb-[15vh]  h-svh max-w-md mx-auto grid relative ${
+      className={`pt7 pt-[3.5vh] pb-[15vh]  h-svh max-w-md mx-auto grid relative z-50 ${
         ansType === "text" ? "grid-rows-[auto_1fr_auto_auto]" : ""
       }`}
     >
@@ -1111,7 +1111,7 @@ const Quiz = () => {
       {/* <div className="w-screen h-auto aspect-[3.125]"></div> */}
       <Image
         src={"/images/green-curves-graphic.png"}
-        className="w-full h-auto absolute bottom-0 left-0 "
+        className="w-full h-auto absolute z-50 bottom-0 left-0 "
         width={375}
         height={110}
         alt="green graphics image abstract"

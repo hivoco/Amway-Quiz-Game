@@ -1,6 +1,7 @@
+import { SessionProvider } from "@/context/SessionContext";
 import "@/styles/globals.css";
 import { Inter } from "next/font/google";
-import { SessionProvider } from "./context/SessionContext";
+
 
 const inter = Inter({
   subsets: ["latin"],
