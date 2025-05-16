@@ -1,9 +1,15 @@
 import Image from "next/image";
-const Header = ({ className }) => {
+const Header = ({ className,animation }) => {
   return (
-    <header className={`w-full flex justify-between items-center px-5 !py-12 ${className}`}>
+    <header
+      className={`w-full flex justify-between items-center px-5 !py-12 ${className}`}
+    >
       <Image
-        className="h-5 w-auto"
+        className={`h-5 w-auto
+        transition-all duration-1000 ease-in-out ${
+          animation ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0"
+        }
+          `}
         src={"/logos/Nutrilite-logo.png"}
         width={99}
         height={20}
@@ -12,7 +18,11 @@ const Header = ({ className }) => {
       />
 
       <Image
-        className="h-5 w-auto"
+        className={`h-5 w-auto
+      transition-all duration-1000 ease-in-out ${
+        animation ? "translate-x-0 opacity-100" : "translate-x-10 opacity-0"
+      }
+        `}
         src={"/logos/hivoco-color-logo-black-text.png"}
         width={123}
         height={20}

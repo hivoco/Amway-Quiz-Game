@@ -151,7 +151,7 @@ export function appendSessionToUrl(url, sessionName) {
 export const useSession = () => useContext(SessionContext);
 
 // Custom Link component that automatically adds session parameter
-export const SessionLink = ({ href, children, ...props }) => {
+export  const SessionLink = ({ href, children, ...props }) => {
   const { sessionName } = useSession();
   let sessionHref = href;
 
@@ -167,6 +167,6 @@ export const SessionLink = ({ href, children, ...props }) => {
 };
 
 // Global helper to get a URL with session
-export function getSessionUrl(url) {
+export  function getSessionUrl(url) {
   return appendSessionToUrl(url, globalSessionName);
 }

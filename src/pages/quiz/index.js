@@ -610,20 +610,33 @@ const Quiz = () => {
   const [seconds, setSeconds] = useState(30);
   const router = useRouter();
 
+
+  // useEffect(() => {
+  //   const timer1 = setTimeout(() => {
+  //     setAnimationNumber(1);
+  //   }, 1500);
+
+  //   const timer2 = setTimeout(() => {
+  //     setAnimationNumber(2);
+  //   }, 1500);
+
+  //   return () => {
+  //     clearTimeout(timer1);
+  //     clearTimeout(timer2);
+  //   };
+  // }, []);
+
+  const [animation, setAnimation] = useState(false);  
   useEffect(() => {
-    const timer1 = setTimeout(() => {
-      setAnimationNumber(1);
-    }, 1500);
+    if (!isLoading) {
+      setTimeout(() => {
+        setAnimation(true);
+      },500);
+    }
+  }, [isLoading]);
+  
+  // *******************************************************************************************
 
-    const timer2 = setTimeout(() => {
-      setAnimationNumber(2);
-    }, 1500);
-
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-    };
-  }, []);
 
   const language = searchParams.get("language") || "english";
   const session_id = searchParams.get("session") || "";
@@ -912,27 +925,45 @@ const Quiz = () => {
     }
   }, [debouncedQuery]);
 
-  const currentQuestion = questions[currentQuestionIndex];
+  const currentQuestion =  questions[currentQuestionIndex];
   if (!currentQuestion) {
     return <Loading />;
   }
 
   return (
+    // currentQuestion?.is_write
+    // ansType === "text" 
     <div
-      className={`pt7 pt-[3.5vh] pb-[15vh]  h-svh sm:h-auto   max-w-md mx-auto grid relative  ${
+      className={`pt7 pt-[3.5vh] pb-[15vh]  h-svh sm:h-auto   max-w-md mx-auto grid relative overflow-hidden  ${
         ansType === "text" ? "grid-rows-[auto_1fr_auto_auto]" : ""
-      }`}
+      }
+      transition-all duration-500 ease-in-out ${
+        animation ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+      }
+      `}
     >
       <section className="w-full fle grid flex-col gap-1.5 px-6 relative z-50">
         <nav className=" w-full flex justify-between items-center ">
-          <div className="flex items-center gap-3">
+          <div
+            className={`flex items-center gap-3
+            transition-all duration-1000 ease-in-out ${
+              animation ? "translate-x-0 " : "-translate-x-30"
+            }
+            `}
+          >
             <ArrowLeft size={24} />
             <span className="text-dark-green font-semibold text-lg/5.5 ">
               {currentQuestionIndex + 1}/{questions.length}
             </span>
           </div>
 
-          <div className="flex flex-col gap-2.5  ">
+          <div
+            className={`flex flex-col gap-2.5
+              transition-all duration-1000 ease-in-out ${
+                animation ? "translate-x-0 " : "translate-x-30"
+              }
+            `}
+          >
             <span className="w-8.5 h-8.5 flex items-center justify-center rounded-full bg-[#79BF44] outline-1 outline-dark-green">
               <LogOut color="white" size={16} />
             </span>
@@ -950,7 +981,10 @@ const Quiz = () => {
           </div>
         </nav>
 
-        <ProgressBar count={currentQuestion.question_id + 1} />
+        <ProgressBar
+          animation={animation}
+          count={currentQuestion.question_id + 1}
+        />
       </section>
 
       <section
@@ -977,7 +1011,9 @@ const Quiz = () => {
         <div className="relative  overflow-visible flex items-center justify-center cursor-pointer ">
           <div
             onClick={recording ? handleStopRecording : handleStartRecording}
-            className="flex flex-col gap- justify-center items-center z-50 relative py-6 pt-5 "
+            className={`flex flex-col gap- justify-center items-center z-50 relative py-6 pt-5 
+            ${currentQuestion?.is_write?"pointer-events-none":"pointer-events-auto"}
+            `}
           >
             <Image
               className={`${recording ? "w-15" : ""}`}
@@ -1013,7 +1049,13 @@ const Quiz = () => {
             />
           </div>
         ) : (
-          <div className="w-full flex flex-col gap-1">
+          <div
+            className={`w-full flex flex-col gap-1
+            transition-all duration-700 ease-in-out ${
+              animation ? "translate-y-0 " : "translate-y-10"
+            }
+          `}
+          >
             {currentQuestion?.options?.map((option, index) => {
               // Is this the option the user selected?
               const isSelected =
@@ -1046,7 +1088,6 @@ const Quiz = () => {
                     }
                   `}
                 >
-                  
                   {option}
 
                   {/* Show checkmark if this option was selected and correct */}
@@ -1091,7 +1132,13 @@ const Quiz = () => {
         )}
       </section>
 
-      <div className="w-full flex items-center gap-5 mt-4 px-6 relative z-50">
+      <div
+        className={`w-full flex items-center gap-5 mt-4 px-6 relative z-50
+        transition-all duration-[1200ms] ease-in-out ${
+          animation ? "translate-y-0 " : "translate-y-50"
+        }
+        `}
+      >
         <button
           onClick={handleSkip}
           disabled={isQuizCompleted}
@@ -1112,7 +1159,7 @@ const Quiz = () => {
       {/* <div className="w-screen h-auto aspect-[3.125]"></div> */}
       <Image
         src={"/images/green-curves-graphic.png"}
-        className="w-full h-auto absolute z-0 bottom-0 left-0 " 
+        className="w-full h-auto absolute z-0 bottom-0 left-0 "
         width={375}
         height={110}
         alt="green graphics image abstract"

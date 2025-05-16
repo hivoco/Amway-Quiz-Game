@@ -8,16 +8,34 @@ import { useEffect, useState } from "react";
 
 const App = () => {
   const [displaySplash, setDisplaySplash] = useState(true);
+
+  const [animation, setAnimation] = useState(false);
+
   useEffect(() => {
-    setTimeout(() => setDisplaySplash(false), 1500);
+    if (!displaySplash) {
+      setAnimation(true);
+    }
+  }, [displaySplash]);
+  
+  useEffect(() => {
+    setTimeout(() => setDisplaySplash(false), 3000);
   }, []);
+  
   return (
     <>
       {displaySplash ? (
         <SplashScreen />
       ) : (
-        <Layout diffTopImage={true}>
-          <div className="flex items-center justify-center gap-3 pt-[11vh] pb-[5vh]">
+        <Layout diffTopImage={true} animation={animation}>
+          <div
+            className={`flex items-center justify-center gap-3 pt-[11vh] pb-[5vh] 
+                      transition-all duration-1000 ease-in-out ${
+                        animation
+                          ? "translate-y-0 opacity-100"
+                          : "-translate-y-20 opacity-0"
+                      }
+            `}
+          >
             <Image
               className=" "
               src={"/logos/Nutrilite-logo.png"}
@@ -47,13 +65,27 @@ const App = () => {
             /> */}
 
           {/* flex w-full  items-center justify-center */}
-          <div className="font-extrabold text-[42px]/13 text-center ">
+          <div
+            className={`font-extrabold text-[42px]/13 text-center
+                        transition-all duration-1000 ease-in-out 
+                        ${
+                          animation
+                            ? "translate-y-0 opacity-100"
+                            : "translate-y-10 opacity-0"
+                        }
+            `}
+          >
             <h1 className=" text-[#79bf44]">Nutrilite</h1>
             <h1 className=" text-dark-green">Triple Protect</h1>
           </div>
 
           <Image
-            className="mx-auto h-[43%] w-auto"
+            className={`mx-auto h-[43%] w-auto transition-all duration-1000 ease-in-out 
+            ${
+              animation
+                ? "translate-y-0 opacity-100"
+                : "translate-y-30 opacity-0"
+            }`}
             alt="nutrilite-triple-protect"
             width={300}
             height={346}
@@ -66,7 +98,14 @@ const App = () => {
             <CircleArrowRight
               size={54}
               strokeWidth={1}
-              className="bg-white text-dark-green mx-auto mt-[4vh]"
+              className={`bg-white text-dark-green mx-auto mt-[4vh]
+              transition-all duration-1000 ease-in-out 
+                        ${
+                          animation
+                            ? "translate-y-0 opacity-100"
+                            : "translate-y-20 opacity-0"
+                        }
+                `}
             />
           </Link>
 

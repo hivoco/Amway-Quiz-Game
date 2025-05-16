@@ -84,16 +84,36 @@ const Register = () => {
       sessionStorage.setItem("name", Name.trim());
       if (isExit === null || isExit === true) return; 
       setContinueClicked(true);
+      setAnimation(false)
     }
   };
 
+  
+  const [animation, setAnimation] = useState(false);
+  useEffect(() => {
+    setAnimation(true);
+  }, [continueClicked]);
   return (
-    <Layout>
-      <div className="relative h-full w-full z-50">
-        <Header />
+    <Layout animation={animation}>
+      <div
+        className={`relative h-full w-full z-50
+        transition-all duration-1000 ease-in-out transform ${
+          animation ? "opacity-100" : "opacity-0 "
+        }
+        `}
+      >
+        <Header animation={animation} />
 
         <div className="h-72/100 sm:h-2/3  fle flex-col justify-stretch px-12 grid grid-rows-[1fr_3.3fr_auto] gap-8 sm:gap-6 sm:w-4/5 sm:mx-auto">
-          <section className="flex w-full gap-2.5 items-center justify-center">
+          <section
+            className={`flex w-full gap-2.5 items-center justify-center
+                      transition-all duration-1000 ease-in-out ${
+                        animation
+                          ? "translate-y-0 opacity-100"
+                          : "-translate-y-20 opacity-0"
+                      }
+            `}
+          >
             <Image
               alt="nutrilite-triple-protect"
               width={67}
@@ -116,7 +136,15 @@ const Register = () => {
                     height={70}
                     src={"/images/plant-icon.png"}
                   />
-                  <h1 className="text-dark-green font-bold text-2xl/7">
+                  <h1
+                    className={`text-dark-green font-bold text-2xl/7
+                              transition-all duration-1000 ease-in-out ${
+                                animation
+                                  ? "translate-y-0 opacity-100"
+                                  : "translate-y-7 opacity-0"
+                              }
+                    `}
+                  >
                     User Registration
                   </h1>
                 </div>
@@ -152,14 +180,17 @@ const Register = () => {
               </section>
 
               <div
-                onClick={() =>
-                 goFarword(Name)
-                }
+                onClick={() => goFarword(Name)}
                 className={`py-3.5 px-5 outline-dark-green rounded-full font-bold text-xl/6.5 text-center cursor-pointer
                 ${
                   Name.trim() && isExit === false
                     ? "text-white bg-dark-green outline-0 shadow-[0px_2px_2px_#00993333]"
                     : "text-dark-green bg-white/60 outline-2 opacity-70 cursor-not-allowed"
+                }
+                transition-all duration-1000 ease-in-out ${
+                  animation
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-50 opacity-0"
                 }
                 `}
               >
@@ -168,7 +199,7 @@ const Register = () => {
             </>
           )}
 
-          {continueClicked && <SelectLanguage />}
+          {continueClicked && <SelectLanguage animation={animation} setAnimation={setAnimation} />}
         </div>
       </div>
     </Layout>

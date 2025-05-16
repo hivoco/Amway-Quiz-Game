@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 
-const SelectLanguage = () => {
+const SelectLanguage = ({animation}) => {
   const languages = ["hindi", "english"];
   const [selectedLanguage, setSelectedLanguage] = useState("");
 
@@ -26,11 +26,19 @@ const SelectLanguage = () => {
               key={l}
               width={300}
               height={80}
-              className="w-full h-auto"
+              className={`w-full h-auto
+                transition-all duration-1000 ease-in-out ${
+                  animation
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-50 opacity-0"
+                }
+                `}
               alt="language"
             />
           );
         })}
+
+
       </div>
 
       <Link
@@ -41,7 +49,13 @@ const SelectLanguage = () => {
         <CircleArrowRight
           size={54}
           strokeWidth={1}
-          className="bg-white text-dark-green mx-auto"
+          className={`bg-white text-dark-green mx-auto
+          transition-all duration-1000 ease-in-out ${
+            animation
+              ? "translate-y-0 opacity-100"
+              : "translate-y-50 opacity-0"
+          }
+            `}
         />
       </Link>
     </>

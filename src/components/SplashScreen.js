@@ -12,7 +12,7 @@ const SplashScreen = () => {
     <div className="h-svh w-full flex flex-col justify-center items-center relative overflow-hidden">
       <Image
         className={`absolute top-0 sm:-top-28 w-full h-auto z-0
-          transition-all duration-700 ease-in-out ${
+          transition-all duration-1000 ease-in-out ${
             animation
               ? "translate-x-0 translate-y-0 opacity-100"
               : "-translate-x-full translate-y-60 opacity-0"
@@ -28,7 +28,7 @@ const SplashScreen = () => {
       <section className="flex  flex-col justify-center items-center   relative z-50">
         <Image
           className={`h-auto self-start pb-[5vh]
-            transition-all duration-700 ease-in-out ${
+            transition-all duration-1000 ease-in-out ${
               animation
                 ? " translate-y-0 opacity-100"
                 : "-translate-y-30 opacity-0"
@@ -44,7 +44,7 @@ const SplashScreen = () => {
         <div className="h-full  space-y-1.5">
           <Image
             className={`w-auto 
-            transition-all duration-700 ease-in-out ${
+            transition-all duration-1000 ease-in-out ${
               animation
                 ? " translate-y-0 opacity-100"
                 : "-translate-y-30 opacity-0"
@@ -60,7 +60,7 @@ const SplashScreen = () => {
 
           <Image
             className={`w-auto
-            transition-all duration-700 ease-in-out ${
+            transition-all duration-1000 ease-in-out ${
               animation
                 ? " translate-y-0 opacity-100"
                 : "translate-y-30 opacity-0"
@@ -76,7 +76,7 @@ const SplashScreen = () => {
 
         <Image
           className={`self-end h-auto pt-[5vh]
-          transition-all duration-700 ease-in-out ${
+          transition-all duration-1000 ease-in-out ${
             animation
               ? " translate-y-0 opacity-100"
               : "translate-y-30 opacity-0"
@@ -92,7 +92,7 @@ const SplashScreen = () => {
 
       <Image
         className={`absolute bottom-0 sm:-bottom-32 rotate-180 w-full h-auto z-0 
-        transition-all duration-700 ease-in-out ${
+        transition-all duration-1000 ease-in-out ${
           animation
             ? "translate-x-0 translate-y-0 opacity-100"
             : "translate-x-full -translate-y-60 opacity-0"
