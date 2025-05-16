@@ -626,6 +626,7 @@ const Quiz = () => {
   }, []);
 
   const language = searchParams.get("language") || "english";
+  const session_id = searchParams.get("session") || "";
 
   useEffect(() => {
     if (router.isReady && !isQuizCompleted) {
@@ -749,29 +750,43 @@ const Quiz = () => {
     }
   };
 
-  const completeQuiz = () => {
-    setIsQuizCompleted(true); // Mark quiz as completed
-
-    // Stop any playing audio
-    if (audio) {
-      audio.pause();
-    }
-
+  const insertRecord = async () => {
     try {
-      // Save data to localStorage
-      localStorage.setItem("data", JSON.stringify(userResponceArray));
+      setIsLoading(true);
+      const name = sessionStorage.getItem("name");
+      const response = await fetch(
+        "http://192.168.0.6:5000/api/insert_record",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            session_id,
+            quiz: userResponceArray,
+          }),
+        }
+      );
 
-      // Navigate to login page with delay to ensure state updates first
+      await response.json();
+
       setTimeout(() => {
-        router.push("/leaderboard");
+        router.push(`/leaderboard?session_id=${session_id}&name=${name}`);
       }, 150);
     } catch (error) {
-      console.error("Error during quiz completion:", error);
-      // Even on error, try to navigate
+      setIsLoading(false);
+      console.error("Error inserting record:", error);
       setTimeout(() => {
         router.push("/leaderboard");
       }, 150);
     }
+  };
+
+  const completeQuiz = () => {
+    setIsQuizCompleted(true);
+    if (audio) audio.pause();
+    insertRecord(); // no need for try/catch here anymore
   };
 
   const resetState = () => {

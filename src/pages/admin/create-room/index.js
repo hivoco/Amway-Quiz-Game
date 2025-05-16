@@ -18,7 +18,7 @@ const RoomCreator = () => {
     }
 
     setIsLoading(true);
-    fetch(`http://192.168.0.6:5000/api/is_user_exit?name=${name}`)
+    fetch(`http://192.168.0.6:5000/api/is_session_exit?name=${name}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -79,7 +79,7 @@ const RoomCreator = () => {
   const createRoom = () => {
     if (!isRoomExists && roomName.trim()) {
       const formattedRoomName = roomName.trim().replace(/\s+/g, "-");
-      const newRoomUrl = `https://localhost:5000?session=${formattedRoomName}`;
+      const newRoomUrl = `${window.location.protocol}://${window.location.href}?session=${formattedRoomName}`;
       setRoomUrl(newRoomUrl);
       setSessionCreated(true);
 

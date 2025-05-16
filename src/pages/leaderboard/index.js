@@ -1,6 +1,8 @@
 import Layout from "@/components/Layout";
+import Loading from "@/components/Loading";
 import Image from "next/image";
-import React from "react";
+import { useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 const LeaderBoard = () => {
   const leaderboardList = [
@@ -9,6 +11,42 @@ const LeaderBoard = () => {
     { rank: "4th", name: "Adya", points: 89 },
     { rank: "5th", name: "Shruti", points: 88 },
   ];
+  const searchParams = useSearchParams();
+  const session_id = searchParams.get("session_id") || "";
+  const name = searchParams.get("name") || "";
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getInfo = () => {
+    setIsLoading(true);
+    fetch(
+      `http://192.168.0.6:5000/api/get_top5?session_id=${session_id}&name=${name}`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json(); // Return the promise for the next then
+      })
+      .then((data) => {
+        console.log("Success:", data);
+
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setIsLoading(false);
+        setIsRoomExists(null); // Reset on error
+      });
+  };
+
+  useEffect(() => {
+    getInfo();
+  }, []);
+
+  if (isLoading) {
+    <Loading />;
+  }
 
   return (
     <Layout>
