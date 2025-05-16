@@ -26,7 +26,6 @@ const LeaderBoard = () => {
 
   const getInfo = () => {
     setIsLoading(true);
-    return
     fetch(
       `https://api.amway.thefirstimpression.ai/get_top5?session_id=${session_id}&name=${name}`
     )
