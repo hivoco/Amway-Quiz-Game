@@ -611,7 +611,6 @@ const Quiz = () => {
   const [seconds, setSeconds] = useState(30);
   const router = useRouter();
 
-
   // useEffect(() => {
   //   const timer1 = setTimeout(() => {
   //     setAnimationNumber(1);
@@ -627,17 +626,16 @@ const Quiz = () => {
   //   };
   // }, []);
 
-  const [animation, setAnimation] = useState(false);  
+  const [animation, setAnimation] = useState(false);
   useEffect(() => {
     if (!isLoading) {
       setTimeout(() => {
         setAnimation(true);
-      },500);
+      }, 500);
     }
   }, [isLoading]);
-  
-  // *******************************************************************************************
 
+  // *******************************************************************************************
 
   const language = searchParams.get("language") || "english";
   const session_id = searchParams.get("session") || "";
@@ -827,11 +825,14 @@ const Quiz = () => {
     const startTime = Date.now();
     try {
       setIsLoading(true);
-      const response = await fetch("https://api.amway.thefirstimpression.ai//api/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        "https://api.amway.thefirstimpression.ai//api/verify",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      );
       const data = await response.json();
       const elapsedTime = Date.now() - startTime;
       const minLoadingTime = 800;
@@ -926,7 +927,7 @@ const Quiz = () => {
     }
   }, [debouncedQuery]);
 
-  const currentQuestion =  questions[currentQuestionIndex];
+  const currentQuestion = questions[currentQuestionIndex];
   if (!currentQuestion) {
     return <Loading />;
   }
@@ -944,23 +945,37 @@ const Quiz = () => {
       `}
     >
       <section className="w-full fle grid flex-col gap-1.5 px-6 relative z-50">
-        <nav className=" w-full flex justify-between items-center ">
+        <nav className=" w-full flex justify-between  relative ">
           <div
-            className={`flex items-center gap-3
+            className={`flex flex-col justify-between 
             transition-all duration-1000 ease-in-out ${
               animation ? "translate-x-0 " : "-translate-x-30"
             }
             `}
           >
-            <Link className="cursor-pointer" href={"/register"}>
-              <ArrowLeft size={24} />
-            </Link>
+            <div className="flex gap-3 self-start">
+              <Link className="cursor-pointer" href={"/register"}>
+                <ArrowLeft size={24} />
+              </Link>
 
-            <span className="text-dark-green font-semibold text-lg/5.5 ">
-              {currentQuestionIndex + 1}/{questions.length}
-            </span>
+              <span className="text-dark-green font-semibold text-lg/5.5 ">
+                {currentQuestionIndex + 1}/{questions.length}
+              </span>
+            </div>
           </div>
 
+          <span className="absolute bottom-0 left-1/2 -translate-x-1/2  text-dark-green  font-inter font-semibold text-base">
+            {!isLoading && (
+              <Timer
+                onTimeout={handleSkip}
+                seconds={seconds}
+                setSeconds={setSeconds}
+                index={currentQuestionIndex}
+                isQuizQuestionLoading={!currentQuestion}
+                autoSubmit={handleSubmit}
+              />
+            )}
+          </span>
           <div
             className={`flex flex-col gap-2.5
               transition-all duration-1000 ease-in-out ${
@@ -1000,7 +1015,7 @@ const Quiz = () => {
       >
         <div className="font-semibold text-base/5 tracking-wide text-[#111111] relative outline outline-black p-3.5 rounded-xl">
           {`Q${currentQuestion.question_id + 1}.`} {currentQuestion.question}
-          <span className="absolute right-0 -bottom-5 bg-green-200 rounded-full p-2 w-16 text-center">
+          {/* <span className="absolute right-0 -bottom-5 bg-green-200 rounded-full p-2 w-16 text-center">
             {!isLoading && (
               <Timer
                 onTimeout={handleSkip}
@@ -1011,7 +1026,7 @@ const Quiz = () => {
                 autoSubmit={handleSubmit}
               />
             )}
-          </span>
+          </span> */}
         </div>
 
         <div className="relative  overflow-visible flex items-center justify-center cursor-pointer ">
@@ -1160,7 +1175,9 @@ const Quiz = () => {
         <button
           onClick={handleSubmit}
           disabled={isQuizCompleted}
-          className="shadow-[0px_2px_2px_#00993333] w-1/2 rounded-xl font-semibold text-xl/6 outline-2 outline-dark-green text-dark-green text-center py-3"
+          className={`shadow-[0px_2px_2px_#00993333] w-1/2 rounded-xl font-semibold text-xl/6  text-center py-3
+            outline-2 outline-dark-green text-dark-green  active:bg-dark-green active:text-white
+            `}
         >
           Submit
         </button>

@@ -56,7 +56,16 @@ const SplashScreen = () => {
             alt="nutrilite logo"
             priority={true}
           />
-          <X className="mx-auto" />
+
+          <X
+            className={`mx-auto
+            transition-all duration-1000 ease-in-out ${
+              animation
+                ? "opacity-100"
+                : "opacity-0"
+            }
+            `}
+          />
 
           <Image
             className={`w-auto
