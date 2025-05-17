@@ -1144,6 +1144,7 @@ const Quiz = () => {
           disabled={isQuizCompleted}
           className="shadow-[0px_2px_2px_#00993333] w-1/2 rounded-xl font-semibold text-xl/6 outline-2 outline-dark-green text-dark-green text-center py-3"
         >
+          
           Skip
         </button>
 

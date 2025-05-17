@@ -9,13 +9,14 @@ function VerifyLoading() {
           <div className="relative">
             <Image
               className="mx-auto w-36 h-auto animate-spin"
-              src="/images/loading-image.png"
+              src="/images/green-leaf-circle.png"
+              
               width={280}
               height={265}
               alt="Loading animation"
             />
-            <div className="flex items-center font-Theo font-normal text-xl text-center text-black mt-2 tracking-wide">
-              <span className="uppercase">Checking your answer</span>
+            <div className="flex items-center font-normal text-sm text-center text-black mt-2 tracking-wide">
+              <span className="capitalize">Checking your answer</span>
               <span className="dot1">.</span>
               <span className="dot2">.</span>
               <span className="dot3">.</span>

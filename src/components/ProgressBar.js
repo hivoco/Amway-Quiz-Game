@@ -12,7 +12,6 @@ const ProgressBar = ({ count, animation }) => {
         `}
     >
       {/* Line connecting all dots at the back-ground */}
-
       <div className="absolute h-1 bg-[#BFBFBF] left-0 right-0 top-1/2 transform -translate-y-1/2 z-0">
         <div
           style={{ width: `${count <= totalSteps && (count - 1) * 11}%` }}
