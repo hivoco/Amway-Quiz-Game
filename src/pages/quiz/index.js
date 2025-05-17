@@ -576,6 +576,7 @@ import useSpeechRecognition from "@/hooks/useSpeechRecognition";
 import { ArrowLeft, LogOut, Mic, Volume2, VolumeOff } from "lucide-react";
 import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
 import Image from "next/image";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
@@ -932,7 +933,7 @@ const Quiz = () => {
 
   return (
     // currentQuestion?.is_write
-    // ansType === "text" 
+    // ansType === "text"
     <div
       className={`pt7 pt-[3.5vh] pb-[15vh]  h-svh sm:h-auto   max-w-md mx-auto grid relative overflow-hidden  ${
         ansType === "text" ? "grid-rows-[auto_1fr_auto_auto]" : ""
@@ -951,7 +952,10 @@ const Quiz = () => {
             }
             `}
           >
-            <ArrowLeft size={24} />
+            <Link className="cursor-pointer" href={"/register"}>
+              <ArrowLeft size={24} />
+            </Link>
+
             <span className="text-dark-green font-semibold text-lg/5.5 ">
               {currentQuestionIndex + 1}/{questions.length}
             </span>
@@ -965,7 +969,9 @@ const Quiz = () => {
             `}
           >
             <span className="w-8.5 h-8.5 flex items-center justify-center rounded-full bg-[#79BF44] outline-1 outline-dark-green">
-              <LogOut color="white" size={16} />
+              <Link className="cursor-pointer" href={"/"}>
+                <LogOut color="white" size={16} />
+              </Link>
             </span>
 
             <span
@@ -1012,7 +1018,11 @@ const Quiz = () => {
           <div
             onClick={recording ? handleStopRecording : handleStartRecording}
             className={`flex flex-col gap- justify-center items-center z-50 relative py-6 pt-5 
-            ${currentQuestion?.is_write?"pointer-events-none":"pointer-events-auto"}
+            ${
+              currentQuestion?.is_write
+                ? "pointer-events-none"
+                : "pointer-events-auto"
+            }
             `}
           >
             <Image
@@ -1144,7 +1154,6 @@ const Quiz = () => {
           disabled={isQuizCompleted}
           className="shadow-[0px_2px_2px_#00993333] w-1/2 rounded-xl font-semibold text-xl/6 outline-2 outline-dark-green text-dark-green text-center py-3"
         >
-          
           Skip
         </button>
 
