@@ -567,6 +567,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import useVoiceRecorder from "@/hooks/useVoiceRecorder";
 import { blobToBase64 } from "@/components/helper";
 import Loading from "@/components/Loading";
+import Link from "next/link";
 
 const Quiz = () => {
   const {
@@ -601,23 +602,18 @@ const Quiz = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const router = useRouter();
-
+  const [animation, setAnimation] = useState(false);
   useEffect(() => {
-    const timer1 = setTimeout(() => {
-      setAnimationNumber(1);
-    }, 1500);
+    if (!isLoading) {
+      setTimeout(() => {
+        setAnimation(true);
+      }, 500);
+    }
+  }, [isLoading]);
 
-    const timer2 = setTimeout(() => {
-      setAnimationNumber(2);
-    }, 1500);
-
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-    };
-  }, []);
-
+  //////////////////////////////////////////////////////////////////////////////////
   const language = searchParams.get("language") || "english";
+  const session_id = searchParams.get("session") || "";
 
   useEffect(() => {
     if (router.isReady && !isQuizCompleted) {
@@ -938,27 +934,58 @@ const Quiz = () => {
 
   return (
     <div
-      className={`pt7 pt-4 pb- min-h-svh max-w-md mx-auto grid  relative ${
+      className={`pt-[3.5vh] pb-[15vh] h-svh sm:h-auto  max-w-md mx-auto grid relative overflow-hidden ${
         ansType === "text" ? "grid-rows-[auto_1fr_auto_auto]" : ""
       }`}
     >
       <section className="w-full fle grid flex-col gap-1.5 px-6">
-        <nav className=" w-full flex justify-between items-center ">
-          <div className="flex items-center gap-3 ">
-            <ArrowLeft size={24} />
-            <span className="text-dark-green font-semibold text-lg/5.5 ">
-              {currentQuestionIndex + 1}/{questions.length}
-            </span>
+        <nav className=" w-full flex justify-between  relative ">
+          <div
+            className={`flex flex-col justify-between 
+            transition-all duration-1000 ease-in-out ${
+              animation ? "translate-x-0 " : "-translate-x-30"
+            }
+            `}
+          >
+            <div className="flex gap-3 self-start">
+              <Link className="cursor-pointer" href={"/register"}>
+                <ArrowLeft size={24} />
+              </Link>
+
+              <span className="text-dark-green font-semibold text-lg/5.5 ">
+                {currentQuestionIndex + 1}/{questions.length}
+              </span>
+            </div>
           </div>
 
-          <div className="flex flex-col gap-2.5  ">
-            <span className="p-3  rounded-full bg-[#79BF44] outline-1 outline-dark-green">
-              <LogOut color="white" size={16} />
+          <span className="absolute bottom-0 left-1/2 -translate-x-1/2  text-dark-green  font-inter font-semibold text-base">
+            {!isLoading && (
+              <Timer
+                onTimeout={handleSkip}
+                seconds={seconds}
+                setSeconds={setSeconds}
+                index={currentQuestionIndex}
+                isQuizQuestionLoading={!currentQuestion}
+                autoSubmit={handleSubmit}
+              />
+            )}
+          </span>
+          <div
+            className={`flex flex-col gap-2.5
+              transition-all duration-1000 ease-in-out ${
+                animation ? "translate-x-0 " : "translate-x-30"
+              }
+            `}
+          >
+            <span className="w-8.5 h-8.5 flex items-center justify-center rounded-full bg-[#79BF44] outline-1 outline-dark-green">
+              <Link className="cursor-pointer" href={"/"}>
+                <LogOut color="white" size={16} />
+              </Link>
             </span>
 
             <span
               onClick={toggleQuestionAudio}
-              className="p-3 rounded-full bg-[#79BF44] outline-1 outline-dark-green"
+              className="w-8.5 h-8.5 flex items-center justify-center rounded-full bg-[#79BF44] outline-1 outline-dark-green"
             >
               {!isPlaying ? (
                 <VolumeOff color="white" size={16} />
@@ -969,12 +996,15 @@ const Quiz = () => {
           </div>
         </nav>
 
-        <ProgressBar count={currentQuestion.question_id + 1} />
+        <ProgressBar
+          animation={animation}
+          count={currentQuestion.question_id + 1}
+        />
       </section>
 
       <section
         className={`w-full fle flex-col grid gap-2 px-6
-                ${ansType ? "grid-rows-[90px_120px_40px]" : ""} 
+        ${ansType ? "grid-rows-[90px_120px_40px]" : ""} 
         `}
       >
         <div className="font-semibold text-base/5 tracking-wide text-[#111111] relative outline outline-black p-3.5 rounded-xl">
@@ -1035,7 +1065,13 @@ const Quiz = () => {
               className="font-medium w-full text-base/5.5 tracking-wide text-black111/65 bg-transparent text-left focus:outline-none"
             />
 
-             {query && <SendHorizontal onClick={()=> verifyAnswer(query, false)} className="text-dark-green cursor-pointer" size={20} />}
+            {query && (
+              <SendHorizontal
+                onClick={() => verifyAnswer(query, false)}
+                className="text-dark-green cursor-pointer"
+                size={20}
+              />
+            )}
           </div>
         ) : (
           <div className="w-full flex flex-col gap-2">
@@ -1127,7 +1163,7 @@ const Quiz = () => {
         <button
           onClick={handleSubmit}
           disabled={isQuizCompleted}
-          className="shadow-[0px_2px_2px_#00993333] w-1/2 rounded-xl font-semibold text-xl/6 outline-2 outline-dark-green text-dark-green text-center py-3"
+          className="shadow-[0px_2px_2px_#00993333] w-1/2 rounded-xl font-semibold text-xl/6 outline-2 outline-dark-green text-dark-green  active:bg-dark-green active:text-white text-center py-3"
         >
           Submit
         </button>
@@ -1135,7 +1171,7 @@ const Quiz = () => {
 
       <Image
         src={"/images/green-curves-graphic.png"}
-        className="w-full h-auto bottom-0 left-0 right-0"
+        className="w-full h-auto absolute z-0 bottom-0 left-0 "
         width={375}
         height={120}
         alt="green graphics image abstract"

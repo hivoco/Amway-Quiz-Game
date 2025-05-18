@@ -6,6 +6,7 @@ const PlatformQuiz = () => {
   const router = useRouter();
     const searchParams = useSearchParams();
     const language = searchParams.get("language");
+    const session_id = searchParams.get("session") || "";
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -22,11 +23,11 @@ const PlatformQuiz = () => {
       if (platform == "iOS") {
         console.log(language,platform,"ios");
         
-        router.push(`/iosquiz?language=${language}`); // Redirect to iOS quiz        
+        router.push(`/iosquiz?language=${language}&session=${session_id}`); // Redirect to iOS quiz        
       } else {
         console.log(language,platform,"android");
 
-        router.push(`/quiz?language=${language}`); // Redirect to Android quiz
+        router.push(`/quiz?language=${language}&session=${session_id}`); // Redirect to Android quiz
       }
     }
   }, [router]);

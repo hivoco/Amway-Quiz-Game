@@ -13,10 +13,10 @@ const Loading = () => {
     // return () => clearInterval(interval);
   }, []);
   return (
-    <div className="relative">
+    <div className="relative w-screen">
       <Layout>
         <Header />
-        <div className="absolute w-full  top-1/2 -translate-y-1/2 mx-auto flex flex-col  gap-30 sm:gap-10">
+        <div className="absolute w-screen top-1/2 -translate-y-1/2  flex  flex-col  gap-30 sm:gap-10">
           <div className="relative">
             <Image
               className={`mx-auto w-3/4 sm:w-3/5 h-auto

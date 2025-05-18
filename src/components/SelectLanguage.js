@@ -1,12 +1,14 @@
 import { CircleArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
 const SelectLanguage = ({animation}) => {
+  const searchParams = useSearchParams();
   const languages = ["hindi", "english"];
   const [selectedLanguage, setSelectedLanguage] = useState("");
-
+   const session_id = searchParams.get("session") || "";
   return (
     <>
       <div className="w-full space-y-6">
@@ -43,7 +45,7 @@ const SelectLanguage = ({animation}) => {
 
       <Link
         href={
-          selectedLanguage ? `/platformQuiz?language=${selectedLanguage}` : "#"
+          selectedLanguage ? `/platformQuiz?language=${selectedLanguage}&session=${session_id}` : "#"
         }
       >
         <CircleArrowRight

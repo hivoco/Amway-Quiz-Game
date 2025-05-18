@@ -762,12 +762,15 @@ const Quiz = () => {
     }
   };
 
+  
+
   const insertRecord = async () => {
+    
     try {
       setIsLoading(true);
       const name = sessionStorage.getItem("name");
       const response = await fetch(
-        "https://api.amway.thefirstimpression.ai//api/insert_record",
+        "https://api.amway.thefirstimpression.ai/api/insert_record",
         {
           method: "POST",
           headers: {
@@ -936,7 +939,7 @@ const Quiz = () => {
     // currentQuestion?.is_write
     // ansType === "text"
     <div
-      className={`pt7 pt-[3.5vh] pb-[15vh]  h-svh sm:h-auto   max-w-md mx-auto grid relative overflow-hidden  ${
+      className={`pt-[3.5vh] pb-[15vh] h-svh sm:h-auto max-w-md mx-auto grid relative overflow-hidden  ${
         ansType === "text" ? "grid-rows-[auto_1fr_auto_auto]" : ""
       }
       transition-all duration-500 ease-in-out ${

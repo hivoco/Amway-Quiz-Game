@@ -2,25 +2,24 @@ import Layout from "@/components/Layout";
 import Loading from "@/components/Loading";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 const LeaderBoard = () => {
+  const searchParams = useSearchParams();
   const [leaderboardList, setLeaderboardList] = useState([
-    { rank: "2nd", name: "Vidhaan", score: 96 },
-    { rank: "3rd", name: "Vinay", score: 92 },
-    { rank: "4th", name: "Adya", score: 89 },
-    { rank: "5th", name: "Shruti", score: 88 },
+    // { rank: "2nd", name: "Vidhaan", score: 96 },
+    // { rank: "3rd", name: "Vinay", score: 92 },
+    // { rank: "4th", name: "Adya", score: 89 },
+    // { rank: "5th", name: "Shruti", score: 88 },
   ]);
   const [animation, setAnimation] = useState(false);
+  const session_id = searchParams.get("session") || "";
+  const name = searchParams.get("name") || "";
 
   useEffect(() => {
     setAnimation(true);
   }, []);
-
-
-  const searchParams = useSearchParams();
-  const session_id = searchParams.get("session_id") || "";
-  const name = searchParams.get("name") || "";
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -50,8 +49,10 @@ const LeaderBoard = () => {
   };
 
   useEffect(() => {
-    getInfo();
-  }, []);
+    if (session_id || name) {
+      getInfo();
+    }
+  }, [name,session_id]);
 
   if (isLoading) {
     <Loading />;
@@ -108,30 +109,30 @@ const LeaderBoard = () => {
           />
 
           <h2 className="text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 ">
-            {leaderboardList[0].score}
+            {leaderboardList[0]?.score}
             <br />
             pts.
           </h2>
         </div>
 
         <h2 className="text-dark-green mt2.5  text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 text-center">
-          {leaderboardList[0].name}
+          {leaderboardList[0]?.name}
         </h2>
       </section>
 
       <section className="h-1/3 sm:w-95/100 sm:mx-auto px-6 fle flex-col grid gap-2 grid-rows-4 font-medium pt-6">
-        {leaderboardList.map((el) => (
+        {leaderboardList?.map((el) => (
           <div
-            key={el.rank}
+            key={el?.rank}
             className="outline-2  border-dark-green rounded-full py-4 px-5 text-lg/5.5 text-center text-black111
             flex items-center justify-between "
           >
             <div className="flex items-center gap-4">
-              <span>{el.rank}</span>
-              <span>{el.name}</span>
+              <span>{el?.rank}</span>
+              <span>{el?.name}</span>
             </div>
 
-            <span className="capitalize">Pts.{el.score}</span>
+            <span className="capitalize">Pts.{el?.score}</span>
           </div>
         ))}
       </section>
