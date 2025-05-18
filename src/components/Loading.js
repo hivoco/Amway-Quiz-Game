@@ -20,9 +20,9 @@ const Loading = () => {
           <div className="relative">
             <Image
               className={`mx-auto w-3/4 sm:w-3/5 h-auto
-               transition-transform duration-500 
-                ${animation ? "rotate-180" : " rotate-0"}`}
-              src="/images/loading-image.png"
+               transition-transform duration-500  animate-spin`
+              }
+              src="/images/green-leaf-circle.png"
               width={280}
               height={265}
               alt="loading animation"
