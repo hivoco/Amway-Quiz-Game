@@ -1110,10 +1110,10 @@ const Quiz = () => {
                     ${
                       isSelected
                         ? isAnswerCorrect
-                          ? "!border-[#066A37] !bg-[#00AE55] !text-white" // User selected this and it's correct
-                          : "!bg-[#F60000] !border-[#7F0000] !text-white" // User selected this and it's wrong
+                          ? "!border-[#066A37] !bg-dark-green !text-white" // User selected this and it's correct
+                          : "!bg-[#ED0000] !border-[#ED0000] !text-white" // User selected this and it's wrong
                         : isCorrectOption && selectedOption && !isAnswerCorrect
-                        ? "!border-[#066A37] !bg-[#066A37] !text-white" // This is the correct answer (shown after user selected wrong)
+                        ? "!border-[#066A37] !bg-dark-green !text-white" // This is the correct answer (shown after user selected wrong)
                         : ""
                     }
                   `}

@@ -613,7 +613,7 @@ const Quiz = () => {
 
   //////////////////////////////////////////////////////////////////////////////////
   const language = searchParams.get("language") || "english";
-  const session_id = searchParams.get("session") || "";
+  
 
   useEffect(() => {
     if (router.isReady && !isQuizCompleted) {
@@ -1093,16 +1093,16 @@ const Quiz = () => {
                   className={`
                     text-[16px] leading-5 text-center 
                     flex items-center justify-between 
-                    border border-[#28211D] px-6 py-3 rounded-full 
+                    border border-[#28211D] px-6 py-3 rounded-lg 
                     capitalize xl:cursor-pointer hover:bg-[#703513]/10 
                     font-semibold text-base/5 text-black111 tracking-wide w-full
                     ${
                       isSelected
                         ? isAnswerCorrect
-                          ? "!border-[#066A37] !bg-[#00AE55] !text-white" // User selected this and it's correct
-                          : "!bg-[#F60000] !border-[#7F0000] !text-white" // User selected this and it's wrong
+                          ? "!border-[#066A37] !bg-dark-green !text-white" // User selected this and it's correct
+                          : "!bg-[#ED0000] !border-[#ED0000] !text-white" // User selected this and it's wrong
                         : isCorrectOption && selectedOption && !isAnswerCorrect
-                        ? "!border-[#066A37] !bg-[#066A37] !text-white" // This is the correct answer (shown after user selected wrong)
+                        ? "!border-[#066A37] !bg-dark-green !text-white" // This is the correct answer (shown after user selected wrong)
                         : ""
                     }
                   `}

@@ -94,12 +94,22 @@ const LeaderBoard = () => {
         </h1>
 
         <div className="flex items-center justify-between w-3/4 max-w-4/5 mx-auto">
-          <h2 className="text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 ">
+          <h2
+            className={`text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9
+            transition-all duration-700 ease-in-out ${
+              animation ? "translate-0" : "translate-y-10"
+            }
+            `}
+          >
             1st
           </h2>
 
           <Image
-            className="h48 h-[23.5vh] w-auto"
+            className={`h48 h-[23.5vh] w-auto
+            transition-all duration-700 ease-in-out ${
+              animation ? "scale-100" : "scale-50"
+            }
+              `}
             alt="prize with glare in bg"
             width={180}
             height={180}
@@ -108,24 +118,44 @@ const LeaderBoard = () => {
             priority={true}
           />
 
-          <h2 className="text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 ">
+          <h2
+            className={`text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9
+            transition-all duration-700 ease-in-out ${
+              animation ? "translate-0" : "translate-y-10"
+            }
+            `}
+          >
             {leaderboardList[0]?.score}
             <br />
             pts.
           </h2>
         </div>
 
-        <h2 className="text-dark-green mt2.5  text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 text-center">
+        <h2
+          className={`text-dark-green mt2.5  text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 text-center
+          transition-all duration-700 ease-in-out ${
+            animation ? "translate-0" : "translate-y-10"
+          }
+          `}
+        >
           {leaderboardList[0]?.name}
         </h2>
       </section>
 
       <section className="h-1/3 sm:w-95/100 sm:mx-auto px-6 fle flex-col grid gap-2 grid-rows-4 font-medium pt-6">
-        {leaderboardList?.map((el) => (
+        {leaderboardList?.map((el, i) => (
           <div
+            style={{
+              transitionDelay: `${300 * i}ms`,
+              transform:!animation? `translateY(${3 * i}rem)` :"translateY(0)",
+            }}
             key={el?.rank}
-            className="outline-2  border-dark-green rounded-full py-4 px-5 text-lg/5.5 text-center text-black111
-            flex items-center justify-between "
+            className={`outline-2  outline-dark-green rounded-full py-4 px-5 text-lg/5.5 text-center text-black111
+            flex items-center justify-between
+            transition-all duration-700 ease-in-out ${
+              animation ? "translate-0 opacity-100" : "translate-y-10 opacity-0"
+            }
+            `}
           >
             <div className="flex items-center gap-4">
               <span>{el?.rank}</span>
