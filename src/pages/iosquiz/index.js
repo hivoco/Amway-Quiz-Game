@@ -559,7 +559,7 @@ import Options from "@/components/Options";
 import ProgressBar from "@/components/ProgressBar";
 import Timer from "@/components/Timer";
 import VerifyLoading from "@/components/VerifyLoading";
-import { ArrowLeft, LogOut, Mic, Volume2, VolumeOff } from "lucide-react";
+import { ArrowLeft, LogOut, Mic, SendHorizontal, Volume2, VolumeOff } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
@@ -911,25 +911,25 @@ const Quiz = () => {
   };
 
   const [query, setQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
+  // const [debouncedQuery, setDebouncedQuery] = useState("");
 
   // Debounce effect
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedQuery(query);
-    }, 500); // delay in ms
+  // useEffect(() => {
+  //   const handler = setTimeout(() => {
+  //     setDebouncedQuery(query);
+  //   }, 500); // delay in ms
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [query]);
+  //   return () => {
+  //     clearTimeout(handler);
+  //   };
+  // }, [query]);
 
   // Triggered after debounce
-  useEffect(() => {
-    if (debouncedQuery) {
-      verifyAnswer(debouncedQuery, false);
-    }
-  }, [debouncedQuery]);
+  // useEffect(() => {
+  //   if (debouncedQuery) {
+  //     verifyAnswer(debouncedQuery, false);
+  //   }
+  // }, [debouncedQuery]);
 
   const currentQuestion = questions[currentQuestionIndex];
   if (!currentQuestion) {
@@ -1026,7 +1026,7 @@ const Quiz = () => {
         </div>
 
         {currentQuestion?.is_write ? (
-          <div className="py-2 px-3.5 w-full flex justify-left border-b border-black">
+          <div className="py-2 px-3.5 w-full flex justify-left items-center border-b border-black">
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -1034,6 +1034,8 @@ const Quiz = () => {
               placeholder="Type your answer here"
               className="font-medium w-full text-base/5.5 tracking-wide text-black111/65 bg-transparent text-left focus:outline-none"
             />
+
+             {query && <SendHorizontal onClick={()=> verifyAnswer(query, false)} className="text-dark-green cursor-pointer" size={20} />}
           </div>
         ) : (
           <div className="w-full flex flex-col gap-2">
@@ -1064,7 +1066,7 @@ const Quiz = () => {
                           ? "!border-[#066A37] !bg-[#00AE55] !text-white" // User selected this and it's correct
                           : "!bg-[#F60000] !border-[#7F0000] !text-white" // User selected this and it's wrong
                         : isCorrectOption && selectedOption && !isAnswerCorrect
-                        ? "!border-[#066A37] !bg-[#E6F8EF] !text-[#066A37]" // This is the correct answer (shown after user selected wrong)
+                        ? "!border-[#066A37] !bg-[#066A37] !text-white" // This is the correct answer (shown after user selected wrong)
                         : ""
                     }
                   `}
