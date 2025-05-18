@@ -1151,7 +1151,7 @@ const Quiz = () => {
         )}
       </section>
 
-      <div className="w-full flex items-center gap-5 mt-4 px-6">
+      <div className="w-full flex items-center gap-5 mt-4 px-6 relative z-50">
         <button
           onClick={handleSkip}
           disabled={isQuizCompleted}
