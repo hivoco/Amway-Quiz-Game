@@ -57,9 +57,8 @@ const Layout = ({ children,diffTopImage=false,className,animation }) => {
       {children}
 
       <Image
-        className={`absolute max-w-1/2 h-auto  left-0 bottom-0 z-0
-        transition-all duration-1000 ease-in-out 
-        ${
+        className={`absolute  w-auto h-[21vh] left-0 bottom-0 z-0
+        transition-all duration-1000 ease-in-out ${
           animation ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
         }`}
         src="/images/leafy-corner-deco.png"

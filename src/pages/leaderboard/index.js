@@ -8,10 +8,10 @@ import React, { useEffect, useState } from "react";
 const LeaderBoard = () => {
   const searchParams = useSearchParams();
   const [leaderboardList, setLeaderboardList] = useState([
-    // { rank: "2nd", name: "Vidhaan", score: 96 },
-    // { rank: "3rd", name: "Vinay", score: 92 },
-    // { rank: "4th", name: "Adya", score: 89 },
-    // { rank: "5th", name: "Shruti", score: 88 },
+    { rank: "2nd", name: "Vidhaan", score: 96 },
+    { rank: "3rd", name: "Vinay", score: 92 },
+    { rank: "4th", name: "Adya", score: 89 },
+    { rank: "5th", name: "Shruti", score: 88 },
   ]);
   const [animation, setAnimation] = useState(false);
   const session_id = searchParams.get("session") || "";
@@ -59,117 +59,117 @@ const LeaderBoard = () => {
   }
 
   return (
-    <Layout animation={animation}  className={"sm:h-[110vh]"}>
-      <section
-        className={`flex w-full  gap-2.5 items-center justify-center pt16 pb7 pt-[8vh] pb-[3.5vh]
+      <Layout animation={animation} className={"sm:h-[110vh] pb-[vh]"}>
+        <section
+          className={`flex w-full  gap-2.5 items-center justify-center pt16 pb7 pt-[8vh] pb-[3.5vh]
         transition-all duration-1000 ease-in-out ${
           animation ? "translate-y-0 opacity-100" : "-translate-y-20 opacity-0"
         }
         `}
-      >
-        <Image
-          alt="nutrilite-triple-protect"
-          width={67}
-          height={77}
-          src="/images/nutrilite-triple-protect.png"
-          priority={true}
-        />
-        <div className="font-extrabold text-3xl/9 ">
-          <h1 className=" text-[#79bf44]">Nutrilite</h1>
-          <h1 className=" text-dark-green">Triple Protect</h1>
-        </div>
-      </section>
+        >
+          <Image
+            alt="nutrilite-triple-protect"
+            width={67}
+            height={77}
+            src="/images/nutrilite-triple-protect.png"
+            priority={true}
+          />
+          <div className="font-extrabold text-3xl/9 ">
+            <h1 className=" text-[#79bf44]">Nutrilite</h1>
+            <h1 className=" text-dark-green">Triple Protect</h1>
+          </div>
+        </section>
 
-      {/* <div className="flex flex-col gap-6"> */}
-      <section className="flex flex-col">
-        <h1
-          className={`text-[32px]/9 w-87/100 mx-auto tracking-wider text-center uppercase text-[#F9FBEA]
+        {/* <div className="flex flex-col gap-6"> */}
+        <section className="flex flex-col">
+          <h1
+            className={`text-[32px]/9 w-87/100 mx-auto tracking-wider text-center uppercase text-[#F9FBEA]
           shadow-[5px_5px_0px_#BDD83C] bg-dark-green py-1.5 rounded-lg
           transition-all duration-700 ease-in-out ${
             animation ? "scale-100" : "scale-50"
           }
       `}
-        >
-          LEADERBOARD
-        </h1>
+          >
+            LEADERBOARD
+          </h1>
 
-        <div className="flex items-center justify-between w-3/4 max-w-4/5 mx-auto">
-          <h2
-            className={`text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9
+          <div className="flex items-center justify-between w-3/4 max-w-4/5 mx-auto">
+            <h2
+              className={`text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9
             transition-all duration-700 ease-in-out ${
               animation ? "translate-0" : "translate-y-10"
             }
             `}
-          >
-            1st
-          </h2>
+            >
+              1st
+            </h2>
 
-          <Image
-            className={`h48 h-[23.5vh] w-auto
+            <Image
+              className={`h48 h-[23.5vh] w-auto
             transition-all duration-700 ease-in-out ${
               animation ? "scale-100" : "scale-50"
             }
               `}
-            alt="prize with glare in bg"
-            width={180}
-            height={180}
-            src="/images/Trophy+Glare.png"
-            quality={100}
-            priority={true}
-          />
+              alt="prize with glare in bg"
+              width={180}
+              height={180}
+              src="/images/Trophy+Glare.png"
+              quality={100}
+              priority={true}
+            />
 
-          <h2
-            className={`text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9
+            <h2
+              className={`text-dark-green text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9
             transition-all duration-700 ease-in-out ${
               animation ? "translate-0" : "translate-y-10"
             }
             `}
-          >
-            {leaderboardList[0]?.score}
-            <br />
-            pts.
-          </h2>
-        </div>
+            >
+              {leaderboardList[0]?.score}
+              <br />
+              pts.
+            </h2>
+          </div>
 
-        <h2
-          className={`text-dark-green mt2.5  text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 text-center
+          <h2
+            className={`text-dark-green mt2.5  text-shadow-[0px_2px_2px_#00A55C26] font-bold text-[32px]/9 text-center
           transition-all duration-700 ease-in-out ${
             animation ? "translate-0" : "translate-y-10"
           }
           `}
-        >
-          {leaderboardList[0]?.name}
-        </h2>
-      </section>
+          >
+            {leaderboardList[0]?.name}
+          </h2>
+        </section>
 
-      <section className="h-1/3 sm:w-95/100 sm:mx-auto px-6 fle flex-col grid gap-2 grid-rows-4 font-medium pt-6">
-        {leaderboardList?.map((el, i) => (
-          <div
-            style={{
-              transitionDelay: `${300 * i}ms`,
-              transform: !animation
-                ? `translateY(${3 * i}rem)`
-                : "translateY(0)",
-            }}
-            key={el?.rank}
-            className={`outline-2  outline-dark-green rounded-full py-4 px-5 text-lg/5.5 text-center text-black111
+        <section className="h-1/3 sm:w-95/100 sm:mx-auto px-6 fle flex-col grid gap-2 grid-rows-4 font-medium pt-6 relative z-50">
+          {leaderboardList?.map((el, i) => (
+            <div
+              style={{
+                transitionDelay: `${300 * i}ms`,
+                transform: !animation
+                  ? `translateY(${3 * i}rem)`
+                  : "translateY(0)",
+              }}
+              key={el?.rank}
+              className={`outline-2  outline-dark-green rounded-full py-4 px-5 text-lg/5.5 text-center text-black111
             flex items-center justify-between
             transition-all duration-700 ease-in-out ${
               animation ? "translate-0 opacity-100" : "translate-y-10 opacity-0"
             }
             `}
-          >
-            <div className="flex items-center gap-4">
-              <span>{el?.rank}</span>
-              <span>{el?.name}</span>
-            </div>
+            >
+              <div className="flex items-center gap-4">
+                <span>{el?.rank}</span>
+                <span>{el?.name}</span>
+              </div>
 
-            <span className="capitalize">Pts.{el?.score}</span>
-          </div>
-        ))}
-      </section>
-      {/* </div> */}
-    </Layout>
+              <span className="capitalize">Pts.{el?.score}</span>
+            </div>
+          ))}
+        </section>
+        {/* </div> */}
+      </Layout>
   );
 };
 

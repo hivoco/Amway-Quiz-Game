@@ -67,7 +67,7 @@ const App = () => {
           {/* flex w-full  items-center justify-center */}
           <div
             className={`font-extrabold text-[42px]/13 text-center
-                        transition-all duration-1000 ease-in-out 
+                        transition-all duration-1000 ease-in-out pb[2.47vh]
                         ${
                           animation
                             ? "translate-y-0 opacity-100"
@@ -80,7 +80,7 @@ const App = () => {
           </div>
 
           <Image
-            className={`mx-auto h-[43%] w-auto transition-all duration-1000 ease-in-out 
+            className={`mx-auto h-[43vh] w-auto transition-all duration-1000 ease-in-out 
             ${
               animation
                 ? "translate-y-0 opacity-100"
@@ -100,12 +100,12 @@ const App = () => {
               strokeWidth={1}
               className={`bg-white text-dark-green mx-auto mt-[4vh]
               transition-all duration-1000 ease-in-out 
-                        ${
-                          animation
-                            ? "translate-y-0 opacity-100"
-                            : "translate-y-20 opacity-0"
-                        }
-                `}
+              ${
+                animation
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-20 opacity-0"
+              }
+              `}
             />
           </Link>
 
