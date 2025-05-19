@@ -52,14 +52,14 @@ const LeaderBoard = () => {
     if (session_id || name) {
       getInfo();
     }
-  }, [name,session_id]);
+  }, [name, session_id]);
 
   if (isLoading) {
     <Loading />;
   }
 
   return (
-    <Layout animation={animation} className={"sm:h-[110vh]"}>
+    <Layout animation={animation}  className={"sm:h-[110vh]"}>
       <section
         className={`flex w-full  gap-2.5 items-center justify-center pt16 pb7 pt-[8vh] pb-[3.5vh]
         transition-all duration-1000 ease-in-out ${
@@ -147,7 +147,9 @@ const LeaderBoard = () => {
           <div
             style={{
               transitionDelay: `${300 * i}ms`,
-              transform:!animation? `translateY(${3 * i}rem)` :"translateY(0)",
+              transform: !animation
+                ? `translateY(${3 * i}rem)`
+                : "translateY(0)",
             }}
             key={el?.rank}
             className={`outline-2  outline-dark-green rounded-full py-4 px-5 text-lg/5.5 text-center text-black111

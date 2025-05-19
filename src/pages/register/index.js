@@ -1,5 +1,3 @@
-
-
 import Header from "@/components/Header";
 import Layout from "@/components/Layout";
 import SelectLanguage from "@/components/SelectLanguage";
@@ -13,8 +11,7 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [Name, setName] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
-  console.log(isExit,'isexit');
-  
+  console.log(isExit, "isexit");
 
   const verifyName = (Name) => {
     if (!Name.trim()) {
@@ -23,7 +20,9 @@ const Register = () => {
     }
 
     setIsLoading(true);
-    fetch(`https://api.amway.thefirstimpression.ai/api/is_user_exit?name=${Name}`)
+    fetch(
+      `https://api.amway.thefirstimpression.ai/api/is_user_exit?name=${Name}`
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -82,17 +81,17 @@ const Register = () => {
   const goFarword = (Name) => {
     if (!isExit) {
       sessionStorage.setItem("name", Name.trim());
-      if (isExit === null || isExit === true) return; 
+      if (isExit === null || isExit === true) return;
       setContinueClicked(true);
-      setAnimation(false)
+      setAnimation(false);
     }
   };
 
-  
   const [animation, setAnimation] = useState(false);
   useEffect(() => {
     setAnimation(true);
   }, [continueClicked]);
+  
   return (
     <Layout animation={animation}>
       <div
@@ -152,7 +151,7 @@ const Register = () => {
                 <div className="w-full flex flex-col gap-1 justify-center">
                   <input
                     type="text"
-                    enterKeyHint="enter" 
+                    enterKeyHint="enter"
                     inputMode="text"
                     placeholder="Enter your name"
                     className="font-medium text-sm/6 align-middle text-black capitalize placeholder:text-[#8B8B8B] py-3.5 px-5 outline-3 outline-dark-green rounded-full"
@@ -200,7 +199,9 @@ const Register = () => {
             </>
           )}
 
-          {continueClicked && <SelectLanguage animation={animation} setAnimation={setAnimation} />}
+          {continueClicked && (
+            <SelectLanguage animation={animation} setAnimation={setAnimation} />
+          )}
         </div>
       </div>
     </Layout>

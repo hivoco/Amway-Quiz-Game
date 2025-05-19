@@ -3,11 +3,7 @@ import Loading from "@/components/Loading";
 import React from "react";
 
 const Index = () => {
-  return (
-    <>
-      <Loading />
-    </>
-  );
+  return <Loading />;
 };
 
 export default Index;

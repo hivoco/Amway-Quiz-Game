@@ -613,7 +613,7 @@ const Quiz = () => {
 
   //////////////////////////////////////////////////////////////////////////////////
   const language = searchParams.get("language") || "english";
-  
+   const session_id = searchParams.get("session") || "";
 
   useEffect(() => {
     if (router.isReady && !isQuizCompleted) {
@@ -736,7 +736,7 @@ const Quiz = () => {
       setIsLoading(true);
       const name = sessionStorage.getItem("name");
       const response = await fetch(
-        "https://api.amway.thefirstimpression.ai//api/insert_record",
+        "https://api.amway.thefirstimpression.ai/api/insert_record",
         {
           method: "POST",
           headers: {
@@ -1009,7 +1009,7 @@ const Quiz = () => {
       >
         <div className="font-semibold text-base/5 tracking-wide text-[#111111] relative outline outline-black p-3.5 rounded-xl">
           {`Q${currentQuestion.question_id + 1}.`} {currentQuestion.question}
-          <span className="absolute right-0 -bottom-5 bg-green-200 rounded-full p-2 w-16 text-center">
+          {/* <span className="absolute right-0 -bottom-5 bg-green-200 rounded-full p-2 w-16 text-center">
             {!isLoading && (
               <Timer
                 onTimeout={handleSkip}
@@ -1020,7 +1020,7 @@ const Quiz = () => {
                 autoSubmit={handleSubmit}
               />
             )}
-          </span>
+          </span> */}
         </div>
 
         <div className="relative  overflow-visible flex items-center justify-center cursor-pointer ">

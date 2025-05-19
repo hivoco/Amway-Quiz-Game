@@ -79,7 +79,8 @@ const RoomCreator = () => {
   const createRoom = () => {
     if (!isRoomExists && roomName.trim()) {
       const formattedRoomName = roomName.trim().replace(/\s+/g, "-");
-      const newRoomUrl = `${window.location.host}?session=${formattedRoomName}`;
+      const newRoomUrl = `${window.location.protocol}//${window.location.host}?session=${formattedRoomName}`;
+      
       setRoomUrl(newRoomUrl);
       setSessionCreated(true);
 
