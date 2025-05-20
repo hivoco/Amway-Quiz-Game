@@ -4,24 +4,26 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import Router from "next/router";
 
 const LeaderBoard = () => {
   const searchParams = useSearchParams();
   const [leaderboardList, setLeaderboardList] = useState([
-    { rank: "2nd", name: "Vidhaan", score: 96 },
-    { rank: "3rd", name: "Vinay", score: 92 },
-    { rank: "4th", name: "Adya", score: 89 },
-    { rank: "5th", name: "Shruti", score: 88 },
-  ]);
+    // { rank: "2nd", name: "Vidhaan", score: 96 },
+    // { rank: "3rd", name: "Vinay", score: 92 },
+    // { rank: "4th", name: "Adya", score: 89 },
+    // { rank: "5th", name: "Shruti", score: 88 },
+  ])
   const [animation, setAnimation] = useState(false);
-  const session_id = searchParams.get("session") || "";
+  const [isLoading, setIsLoading] = useState(false);
+  const session_id = searchParams.get("session") ||"";
   const name = searchParams.get("name") || "";
+  const router =useRouter()
 
   useEffect(() => {
     setAnimation(true);
   }, []);
 
-  const [isLoading, setIsLoading] = useState(false);
 
   const getInfo = () => {
     setIsLoading(true);
@@ -49,14 +51,25 @@ const LeaderBoard = () => {
   };
 
   useEffect(() => {
+    if (!router.isReady) return;
+
     if (session_id || name) {
       getInfo();
     }
-  }, [name, session_id]);
 
+    if (!session_id && !name) {
+      router.replace("/");
+    }
+  }, [name, session_id, router.isReady]);
+
+  if (!session_id && !name) {
+    return null;
+  }
+  
   if (isLoading) {
     <Loading />;
   }
+  
 
   return (
       <Layout animation={animation} className={"sm:h-[110vh] pb-[vh]"}>

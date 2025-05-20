@@ -18,7 +18,7 @@ const RoomCreator = () => {
     }
 
     setIsLoading(true);
-    fetch(`https://api.amway.thefirstimpression.ai//api/is_session_exit?name=${name}`)
+    fetch(`https://api.amway.thefirstimpression.ai/api/is_session_exit?name=${name}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

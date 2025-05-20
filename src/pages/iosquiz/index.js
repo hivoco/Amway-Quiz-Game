@@ -600,9 +600,21 @@ const Quiz = () => {
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
   const [seconds, setSeconds] = useState(30);
   const [searchTerm, setSearchTerm] = useState("");
+    const [name,SetName]=useState()
+  
 
   const router = useRouter();
   const [animation, setAnimation] = useState(false);
+
+
+  useEffect(() => {
+    const name = sessionStorage.getItem("name");
+    SetName(name);
+    if (!name) {
+      router.replace("/");
+    }
+  }, []);
+  
   useEffect(() => {
     if (!isLoading) {
       setTimeout(() => {
@@ -616,7 +628,7 @@ const Quiz = () => {
    const session_id = searchParams.get("session") || "";
 
   useEffect(() => {
-    if (router.isReady && !isQuizCompleted) {
+    if (router.isReady && !isQuizCompleted && name) {
       fetchQuestions();
     }
   }, [router.isReady, language, isQuizCompleted]);
@@ -672,7 +684,7 @@ const Quiz = () => {
 
     try {
       const response = await fetch(
-        `https://api.amway.thefirstimpression.ai//api/get_all_question?lang=${language}`
+        `https://api.amway.thefirstimpression.ai/api/get_all_question?lang=${language}`
       );
 
       if (!response.ok) {
@@ -795,7 +807,7 @@ const Quiz = () => {
     const startTime = Date.now();
     try {
       setIsLoading(true);
-      const response = await fetch("https://api.amway.thefirstimpression.ai//api/verify", {
+      const response = await fetch("https://api.amway.thefirstimpression.ai/api/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -928,13 +940,14 @@ const Quiz = () => {
   // }, [debouncedQuery]);
 
   const currentQuestion = questions[currentQuestionIndex];
+    if (!name) return null;
   if (!currentQuestion) {
     return <Loading />;
   }
 
   return (
     <div
-      className={`pt-[3.5vh] pb-[15vh] h-svh sm:h-auto  max-w-md mx-auto grid relative overflow-hidden ${
+      className={`pt-[3.5vh] pb-[15vh] h-svh sm:h-auto  max-w-md mx-auto grid  relative overflow-hidden ${
         ansType === "text" ? "grid-rows-[auto_1fr_auto_auto]" : ""
       }`}
     >

@@ -566,7 +566,6 @@
 // };
 
 // export default Quiz;
-
 import Loading from "@/components/Loading";
 import Options from "@/components/Options";
 import ProgressBar from "@/components/ProgressBar";
@@ -580,6 +579,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
+import { permanentRedirect } from 'next/navigation'
 
 const Quiz = () => {
   const {
@@ -610,6 +610,7 @@ const Quiz = () => {
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
   const [seconds, setSeconds] = useState(30);
   const router = useRouter();
+  const [name,SetName]=useState()
 
   // useEffect(() => {
   //   const timer1 = setTimeout(() => {
@@ -626,6 +627,14 @@ const Quiz = () => {
   //   };
   // }, []);
 
+  useEffect(() => {
+    const name = sessionStorage.getItem("name");
+    SetName(name)
+    if (!name) {
+      router.replace("/");
+    }
+  }, []);
+
   const [animation, setAnimation] = useState(false);
   useEffect(() => {
     if (!isLoading) {
@@ -633,7 +642,7 @@ const Quiz = () => {
         setAnimation(true);
       }, 500);
     }
-  }, [isLoading]);
+  }, [isLoading]);  
 
   // *******************************************************************************************
 
@@ -641,7 +650,7 @@ const Quiz = () => {
   const session_id = searchParams.get("session") || "";
 
   useEffect(() => {
-    if (router.isReady && !isQuizCompleted) {
+    if (router.isReady && !isQuizCompleted && name) {
       fetchQuestions();
     }
   }, [router.isReady, language, isQuizCompleted]);
@@ -703,7 +712,7 @@ const Quiz = () => {
 
     try {
       const response = await fetch(
-        `https://api.amway.thefirstimpression.ai//api/get_all_question?lang=${language}`
+        `https://api.amway.thefirstimpression.ai/api/get_all_question?lang=${language}`
       );
 
       if (!response.ok) {
@@ -762,10 +771,7 @@ const Quiz = () => {
     }
   };
 
-  
-
   const insertRecord = async () => {
-    
     try {
       setIsLoading(true);
       const name = sessionStorage.getItem("name");
@@ -829,7 +835,7 @@ const Quiz = () => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        "https://api.amway.thefirstimpression.ai//api/verify",
+        "https://api.amway.thefirstimpression.ai/api/verify",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -930,7 +936,10 @@ const Quiz = () => {
   //   }
   // }, [debouncedQuery]);
 
+
   const currentQuestion = questions[currentQuestionIndex];
+
+  if(!name)return null
   if (!currentQuestion) {
     return <Loading />;
   }
@@ -939,15 +948,15 @@ const Quiz = () => {
     // currentQuestion?.is_write
     // ansType === "text"
     <div
-      className={`pt-[3.5vh] pb-[15vh] h-svh sm:h-auto max-w-md mx-auto grid relative overflow-hidden  ${
-        ansType === "text" ? "grid-rows-[auto_1fr_auto_auto]" : ""
-      }
-      transition-all duration-500 ease-in-out ${
-        animation ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-      }
+      className={`pt-[3.5vh] pb-[14vh] h-svh max-w-md mx-auto grid  relative overflow-hidden
+        ${currentQuestionIndex === 7 ? "" : "sm:h-auto"}
+        ${ansType === "text" ? "grid-rows-[auto_1fr_auto_auto]" : ""}
+        transition-all duration-500 ease-in-out ${
+          animation ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+        }
       `}
     >
-      <section className="w-full fle grid flex-col gap-1.5 px-6 relative z-50">
+      <section className="w-full fle grid flex-col gap-1.5 px-6 relative z-50 ">
         <nav className=" w-full flex justify-between  relative ">
           <div
             className={`flex flex-col justify-between 
@@ -1012,7 +1021,7 @@ const Quiz = () => {
       </section>
 
       <section
-        className={`w-full fle flex-col grid gap-2  px-6 relative z-50
+        className={`w-full fle flex-col grid  gap-2  px-6 relative z-50
         ${ansType ? "grid-rows-[90px_120px_40px]" : ""} 
       `}
       >
@@ -1057,7 +1066,7 @@ const Quiz = () => {
           </div>
 
           <Image
-            className="absolute inset-0 z-0 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 "
+            className="absolute  inset-0 z-0 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 "
             width={110}
             height={120}
             alt="green hexagon"
@@ -1076,7 +1085,13 @@ const Quiz = () => {
               className="font-medium w-full text-base/5.5 tracking-wide text-black111/65 bg-transparent text-left focus:outline-none"
             />
 
-           {query && <SendHorizontal onClick={()=> verifyAnswer(query, false)} className="text-dark-green cursor-pointer" size={20} />}
+            {query && (
+              <SendHorizontal
+                onClick={() => verifyAnswer(query, false)}
+                className="text-dark-green cursor-pointer"
+                size={20}
+              />
+            )}
           </div>
         ) : (
           <div
@@ -1102,10 +1117,9 @@ const Quiz = () => {
                   key={index}
                   onClick={() => handleOptionClick(option)}
                   className={`
-                    text-[16px] leading-5 text-center 
                     flex items-center justify-between 
-                    border border-[#28211D] p-3.5 rounded-lg 
-                    capitalize xl:cursor-pointer hover:bg-[#703513]/10 
+                    outline outline-black p-3.5 rounded-lg 
+                    capitalize cursor-pointer hover:bg-[#703513]/10 
                     font-semibold text-base/5 text-black111 tracking-wide w-full
                     ${
                       isSelected
@@ -1123,7 +1137,6 @@ const Quiz = () => {
                   {/* Show checkmark if this option was selected and correct */}
                   {isSelected && isAnswerCorrect && (
                     <Image
-                   
                       src="/svg/tick-circle-solid.svg"
                       width={24}
                       height={24}
@@ -1164,7 +1177,7 @@ const Quiz = () => {
       </section>
 
       <div
-        className={`w-full flex items-center gap-5 mt-4 px-6 relative z-50
+        className={`w-full flex items-center gap-5 px-6 relative z-50 mt-4
         transition-all duration-[1200ms] ease-in-out ${
           animation ? "translate-y-0 " : "translate-y-50"
         }
@@ -1192,9 +1205,9 @@ const Quiz = () => {
       {/* <div className="w-screen h-auto aspect-[3.125]"></div> */}
       <Image
         src={"/images/green-curves-graphic.png"}
-        className="w-full h-auto absolute z-0 bottom-0 left-0 "
+        className="w-full max-h-[14vh] h-auto  absolute z-0 bottom-0 left-0 "
         width={375}
-        height={110}
+        height={96}
         alt="green graphics image abstract"
         priority={true}
       />

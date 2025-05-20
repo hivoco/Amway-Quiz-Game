@@ -5,7 +5,7 @@ const ProgressBar = ({ count, animation }) => {
 
   return (
     <div
-      className={`flex w-full items-center justify-between relative py-1.5 mb-5
+      className={`flex w-full items-center justify-between relative py-1.5 mb-2
       transition-all duration-700 ease-in-out ${
         animation ? "translate-x-0 blur-none" : "-translate-y-15 blur-xs"
       }
