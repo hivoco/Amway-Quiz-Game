@@ -69,8 +69,6 @@ const LeaderBoard = () => {
   if (isLoading) {
     <Loading />;
   }
-  
-
   return (
       <Layout animation={animation} className={"sm:h-[110vh] pb-[vh]"}>
         <section

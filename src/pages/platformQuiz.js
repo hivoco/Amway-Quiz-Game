@@ -9,7 +9,7 @@ const PlatformQuiz = () => {
     const session_id = searchParams.get("session") || "";
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" ) {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
       let platform = "android"; // Default platform
 

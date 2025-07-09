@@ -650,10 +650,10 @@ const Quiz = () => {
   const session_id = searchParams.get("session") || "";
 
   useEffect(() => {
-    if (router.isReady && !isQuizCompleted && name) {
+    if (router.isReady && !isQuizCompleted && name && language) {
       fetchQuestions();
     }
-  }, [router.isReady, language, isQuizCompleted]);
+  }, [router.isReady, language, isQuizCompleted,name]);
 
   useEffect(() => {
     if (speechText) {

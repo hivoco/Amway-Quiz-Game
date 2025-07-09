@@ -559,7 +559,14 @@ import Options from "@/components/Options";
 import ProgressBar from "@/components/ProgressBar";
 import Timer from "@/components/Timer";
 import VerifyLoading from "@/components/VerifyLoading";
-import { ArrowLeft, LogOut, Mic, SendHorizontal, Volume2, VolumeOff } from "lucide-react";
+import {
+  ArrowLeft,
+  LogOut,
+  Mic,
+  SendHorizontal,
+  Volume2,
+  VolumeOff,
+} from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
@@ -600,12 +607,10 @@ const Quiz = () => {
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
   const [seconds, setSeconds] = useState(30);
   const [searchTerm, setSearchTerm] = useState("");
-    const [name,SetName]=useState()
-  
+  const [name, SetName] = useState();
 
   const router = useRouter();
   const [animation, setAnimation] = useState(false);
-
 
   useEffect(() => {
     const name = sessionStorage.getItem("name");
@@ -614,7 +619,7 @@ const Quiz = () => {
       router.replace("/");
     }
   }, []);
-  
+
   useEffect(() => {
     if (!isLoading) {
       setTimeout(() => {
@@ -625,13 +630,13 @@ const Quiz = () => {
 
   //////////////////////////////////////////////////////////////////////////////////
   const language = searchParams.get("language") || "english";
-   const session_id = searchParams.get("session") || "";
+  const session_id = searchParams.get("session") || "";
 
   useEffect(() => {
     if (router.isReady && !isQuizCompleted && name) {
       fetchQuestions();
     }
-  }, [router.isReady, language, isQuizCompleted]);
+  }, [router.isReady, language, name, isQuizCompleted]);
 
   useEffect(() => {
     if (allowAudio) {
@@ -807,11 +812,14 @@ const Quiz = () => {
     const startTime = Date.now();
     try {
       setIsLoading(true);
-      const response = await fetch("https://api.amway.thefirstimpression.ai/api/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        "https://api.amway.thefirstimpression.ai/api/verify",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      );
       const data = await response.json();
       const elapsedTime = Date.now() - startTime;
       const minLoadingTime = 800;
@@ -940,7 +948,7 @@ const Quiz = () => {
   // }, [debouncedQuery]);
 
   const currentQuestion = questions[currentQuestionIndex];
-    if (!name) return null;
+  if (!name) return null;
   if (!currentQuestion) {
     return <Loading />;
   }
